@@ -11,9 +11,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/luuxis/Selvania-Launcher?style=for-the-badge)
 
 <p align="center">
-    <a href="https://discord.gg/YwJ64EX8ZC">
-        <img src="[https://invidget.switchblade.xyz/e9q7Yr2cuQ](https://www.google.com/imgres?q=logo%20discord%20invitation&imgurl=https%3A%2F%2Fimg.freepik.com%2Fpsd-premium%2Fbanniere-promotionnelle-du-serveur-discord-icone-style-3d_402554-55.jpg&imgrefurl=https%3A%2F%2Ffr.freepik.com%2Fpsd-premium%2Fbanniere-promotionnelle-du-serveur-discord-icone-style-3d_19281600.htm&docid=lrfbpmTCt3qfqM&tbnid=1-Mwe1inRZP7rM&vet=12ahUKEwi5zJaUlqeJAxWVUqQEHa3TIhcQM3oECH0QAA..i&w=626&h=352&hcb=2&ved=2ahUKEwi5zJaUlqeJAxWVUqQEHa3TIhcQM3oECH0QAA)">
-    </a>
+
 </p>
 
 ### **<ins><p align="center">Téléchargement :</p>**
