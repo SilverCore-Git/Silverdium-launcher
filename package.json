@@ -1,20 +1,20 @@
 {
-    "name": "Selvania-Launcher",
-    "preductname": "Selvania Launcher",
-    "version": "2.0.7",
-    "description": "Launcher Mincraft pour le serveur Selvania",
+    "name": "Silverdium-Launcher",
+    "preductname": "Silverdium Launcher",
+    "version": "1.0.0",
+    "description": "Launcher Mincraft pour le serveur Silverdium",
     "main": "src/app.js",
     "author": {
-        "name": "luuxis, Inc.",
-        "email": "contact@luuxis.fr",
-        "url": "https://github.com/luuxis"
+        "name": "Philippeletug, Inc.",
+        "email": "",
+        "url": "https://github.com/Philippeletug"
     },
-    "url": "http://launcher.luuxis.fr",
+    "url": "http://82.64.217.99/silverdium/launcher-api/",
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
         "build": "node build.js --obf=true --build=platform",
-        "icon": "node build.js --icon=https://raw.githubusercontent.com/luuxis/Selvania-Launcher/master/src/assets/images/icon.png"
+        "icon": "node build.js --icon=http://82.64.217.99/silverdium/launcher-api/icon.png"
     },
     "license": "CCANC",
     "nodemonConfig": {
@@ -39,6 +39,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/luuxis/Selvania-Launcher.git"
+        "url": "git+https://github.com/Philippeletug/Silverdium-Launcher.git"
     }
 }
