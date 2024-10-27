@@ -6,8 +6,8 @@
     "main": "src/app.js",
     "author": {
         "name": "Silverdium gp",
-        "email": "",
-        "url": ""
+        "email": "#",
+        "url": "#"
     },
     "url": "http://82.64.217.99/silverdium/launcher-api",
     "scripts": {

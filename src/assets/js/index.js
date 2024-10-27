@@ -2,6 +2,7 @@
  * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
+// revoir code js
 
 const { ipcRenderer, shell } = require('electron');
 const pkg = require('../package.json');
