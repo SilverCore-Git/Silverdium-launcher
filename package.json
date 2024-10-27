@@ -5,11 +5,11 @@
     "description": "Launcher Mincraft pour le serveur Silverdium",
     "main": "src/app.js",
     "author": {
-        "name": "Philippeletug, Inc.",
+        "name": "Silverdium gp",
         "email": "",
-        "url": "https://github.com/Philippeletug"
+        "url": ""
     },
-    "url": "http://82.64.217.99/silverdium/launcher-api/",
+    "url": "http://82.64.217.99/silverdium/launcher-api",
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",

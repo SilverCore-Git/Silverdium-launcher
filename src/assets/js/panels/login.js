@@ -1,5 +1,5 @@
 /**
- * @author Luuxis
+ * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 const { AZauth, Mojang } = require('minecraft-java-core');
@@ -73,7 +73,7 @@ class Login {
             if (emailOffline.value.length < 3) {
                 popupLogin.openPopup({
                     title: 'Erreur',
-                    content: 'Votre pseudo doit faire au moins 3 caractères.',
+                    content: 'Votre pseudo doit faire au moins 3 caractères. <br>(ex : je = pas ça)',
                     options: true
                 });
                 return;

@@ -1,5 +1,5 @@
 /**
- * @author Luuxis
+ * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 import { config, database, logger, changePanel, appdata, setStatus, pkg, popup } from '../utils.js'
@@ -29,7 +29,7 @@ class Home {
                     <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
-                            <div class="title">Aucun news n'ai actuellement disponible.</div>
+                            <div class="title">Aucune news n'ai actuellement disponible.</div>
                         </div>
                         <div class="date">
                             <div class="day">1</div>
@@ -83,7 +83,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>Impossible de contacter le serveur des news.</br>Merci de vérifier votre configuration.</p>
+                            <p>Impossible de contacter le serveur des news.</br> {ERREUR-srv17}.</p>
                         </div>
                     </div>`
             newsElement.appendChild(blockNews);

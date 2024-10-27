@@ -1,5 +1,5 @@
 /**
- * @author Luuxis
+ * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 
@@ -33,6 +33,9 @@ class Splash {
             { "message": "Je... vie...", "author": "Luuxis" },
             { "message": "Salut je suis du code.", "author": "Luuxis" },
             { "message": "Linux n'est pas un os, mais un kernel.", "author": "Luuxis" }
+            { "message": "Kind of dragon free! ", "author": "Notch" }
+            { "message": "Les distribution Linux sont sécurisé.", "author": "Papaye" }
+            { "message": "Les distribution Linux sont légere.", "author": "Papaye" }
         ];
         let splash = splashes[Math.floor(Math.random() * splashes.length)];
         this.splashMessage.textContent = splash.message;
@@ -119,7 +122,7 @@ class Splash {
             this.startLauncher();
         }).catch(e => {
             console.error(e);
-            return this.shutdown("Aucune connexion internet détectée,<br>veuillez réessayer ultérieurement.");
+            return this.shutdown("Aucune connexion aux API détectée,<br>veuillez réessayer ultérieurement.");
         })
     }
 
@@ -130,8 +133,8 @@ class Splash {
     }
 
     shutdown(text) {
-        this.setStatus(`${text}<br>Arrêt dans 5s`);
-        let i = 4;
+        this.setStatus(`${text}<br>Arrêt dans 10s`);
+        let i = 9;
         setInterval(() => {
             this.setStatus(`${text}<br>Arrêt dans ${i--}s`);
             if (i < 0) ipcRenderer.send('update-window-close');

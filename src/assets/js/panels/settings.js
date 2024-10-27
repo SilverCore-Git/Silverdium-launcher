@@ -1,5 +1,5 @@
 /**
- * @author Luuxis
+ * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 
@@ -187,7 +187,7 @@ class Settings {
                 javaPathInputTxt.value = file;
                 configClient.java_config.java_path = file
                 await this.db.updateData('configClient', configClient);
-            } else alert("Le nom du fichier doit être java ou javaw");
+            } else alert("Le nom du fichier doit être java(.exe) ou javaw(.exe)");
         });
 
         document.querySelector(".java-path-reset").addEventListener("click", async () => {
