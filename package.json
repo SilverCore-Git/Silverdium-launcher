@@ -1,7 +1,8 @@
 {
     "name": "Silverdium-Launcher",
     "preductname": "Silverdium Launcher",
-    "version": "1.0.-1",
+    // Beta 1.0.0
+    "version": "1.0.0",
     "description": "Launcher Mincraft pour le serveur Silverdium",
     "main": "src/app.js",
     "author": {
