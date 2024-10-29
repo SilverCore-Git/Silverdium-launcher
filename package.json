@@ -5,16 +5,16 @@
     "description": "Launcher Mincraft pour le serveur Silverdium",
     "main": "src/app.js",
     "author": {
-        "name": "Silverdium gp",
+        "name": "Silverdium",
         "email": "#",
-        "url": "#"
+        "url": "http://82.64.217.99/silverdium"
     },
-    "url": "http://82.64.217.99/silverdium/launcher-api",
+    "url": "http://82.64.217.99:8880/api/silverdium/launcher-api",
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
         "build": "node build.js --obf=true --build=platform",
-        "icon": "node build.js --icon=http://82.64.217.99/silverdium/launcher-api/icon.png"
+        "icon": "node build.js --icon=http://82.64.217.99:8880/api/silverdium/launcher-api/icon.png"
     },
     "license": "CCANC",
     "nodemonConfig": {
