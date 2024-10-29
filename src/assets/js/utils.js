@@ -2,130 +2,128 @@
  * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
+const { config, database, logger, changePanel, appdata, setStatus, pkg, popup } = require('../utils.js');
+const { Launch } = require('minecraft-java-core');
+const { shell, ipcRenderer } = require('electron');
 
-const { ipcRenderer } = require('electron')
-const { Status } = require('minecraft-java-core')
-const fs = require('fs');
-const pkg = require('../package.json');
+class Home {
+    static id = 'home';
 
-import config from './utils/config.js';
-import database from './utils/database.js';
-import logger from './utils/logger.js';
-import popup from './utils/popup.js';
-import { skin2D } from './utils/skin.js';
-import slider from './utils/slider.js';
-
-async function setBackground(theme) {
-    if (typeof theme == 'undefined') {
-        let databaseLauncher = new database();
-        let configClient = await databaseLauncher.readData('configClient');
-        theme = configClient?.launcher_config?.theme || "auto"
-        theme = await ipcRenderer.invoke('is-dark-theme', theme).then(res => res)
-    }
-    let background
-    let body = document.body;
-    body.className = theme ? 'dark global' : 'light global';
-    if (fs.existsSync(`${__dirname}/assets/images/background/easterEgg`) && Math.random() < 0.005) {
-        let backgrounds = fs.readdirSync(`${__dirname}/assets/images/background/easterEgg`);
-        let Background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-        background = `url(./assets/images/background/easterEgg/${Background})`;
-    } else if (fs.existsSync(`${__dirname}/assets/images/background/${theme ? 'dark' : 'light'}`)) {
-        let backgrounds = fs.readdirSync(`${__dirname}/assets/images/background/${theme ? 'dark' : 'light'}`);
-        let Background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-        background = `linear-gradient(#00000080, #00000080), url(./assets/images/background/${theme ? 'dark' : 'light'}/${Background})`;
-    }
-    body.style.backgroundImage = background ? background : theme ? '#000' : '#fff';
-    body.style.backgroundSize = 'cover';
-}
-
-async function changePanel(id) {
-    let panel = document.querySelector(`.${id}`);
-    let active = document.querySelector(`.active`)
-    if (active) active.classList.toggle("active");
-    panel.classList.add("active");
-}
-
-async function appdata() {
-    return await ipcRenderer.invoke('appData').then(path => path)
-}
-
-async function addAccount(data) {
-    let skin = false
-    if (data?.profile?.skins[0]?.base64) skin = await new skin2D().creatHeadTexture(data.profile.skins[0].base64);
-    let div = document.createElement("div");
-    div.classList.add("account");
-    div.id = data.ID;
-    div.innerHTML = `
-        <div class="profile-image" ${skin ? 'style="background-image: url(' + skin + ');"' : ''}></div>
-        <div class="profile-infos">
-            <div class="profile-pseudo">${data.name}</div>
-            <div class="profile-uuid">${data.uuid}</div>
-        </div>
-        <div class="delete-profile" id="${data.ID}">
-            <div class="icon-account-delete delete-profile-icon"></div>
-        </div>
-    `
-    return document.querySelector('.accounts-list').appendChild(div);
-}
-
-async function accountSelect(data) {
-    let account = document.getElementById(`${data.ID}`);
-    let activeAccount = document.querySelector('.account-select')
-
-    if (activeAccount) activeAccount.classList.toggle('account-select');
-    account.classList.add('account-select');
-    if (data?.profile?.skins[0]?.base64) headplayer(data.profile.skins[0].base64);
-}
-
-async function headplayer(skinBase64) {
-    let skin = await new skin2D().creatHeadTexture(skinBase64);
-    document.querySelector(".player-head").style.backgroundImage = `url(${skin})`;
-}
-
-async function setStatus(opt) {
-    let nameServerElement = document.querySelector('.server-status-name')
-    let statusServerElement = document.querySelector('.server-status-text')
-    let playersOnline = document.querySelector('.status-player-count .player-count')
-
-    if (!opt) {
-        statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = `Ferme - 0 ms`
-        document.querySelector('.status-player-count').classList.add('red')
-        playersOnline.innerHTML = '0'
-        return
+    async init(config) {
+        this.config = config;
+        this.db = new database();
+        this.news();
+        this.socialLink();
+        this.instancesSelect();
+        document.querySelector('.settings-btn').addEventListener('click', () => changePanel('settings'));
     }
 
-    let { ip, port, nameServer } = opt
-    nameServerElement.innerHTML = nameServer
-    let status = new Status(ip, port);
-    let statusServer = await status.getStatus().then(res => res).catch(err => err);
+    async news() {
+        const newsElement = document.querySelector('.news-list');
+        const news = await config.getNews().catch(() => false);
+        if (news && news.length) {
+            news.forEach(News => {
+                const date = this.getDate(News.publish_date);
+                const blockNews = document.createElement('div');
+                blockNews.className = 'news-block';
+                blockNews.innerHTML = `
+                    <div class="news-header">
+                        <img class="server-status-icon" src="assets/images/icon.png">
+                        <div class="header-text">
+                            <div class="title">${News.title}</div>
+                        </div>
+                        <div class="date">
+                            <div class="day">${date.day}</div>
+                            <div class="month">${date.month}</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="bbWrapper">
+                            <p>${News.content.replace(/\n/g, '</br>')}</p>
+                            <p class="news-author">Auteur - <span>${News.author}</span></p>
+                        </div>
+                    </div>`;
+                newsElement.appendChild(blockNews);
+            });
+        } else {
+            newsElement.innerHTML = `<div class="news-block"><p>Impossible de charger les news.</p></div>`;
+        }
+    }
 
-    if (!statusServer.error) {
-        statusServerElement.classList.remove('red')
-        document.querySelector('.status-player-count').classList.remove('red')
-        statusServerElement.innerHTML = `En ligne - ${statusServer.ms} ms`
-        playersOnline.innerHTML = statusServer.playersConnect
-    } else {
-        statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = `Ferme - 0 ms`
-        document.querySelector('.status-player-count').classList.add('red')
-        playersOnline.innerHTML = '0'
+    socialLink() {
+        document.querySelectorAll('.social-block').forEach(social => {
+            social.addEventListener('click', e => shell.openExternal(e.target.dataset.url));
+        });
+    }
+
+    async instancesSelect() {
+        const configClient = await this.db.readData('configClient');
+        const auth = await this.db.readData('accounts', configClient.account_selected);
+        const instancesList = await config.getInstanceList();
+        let instanceSelect = configClient.instance_select || instancesList.find(i => !i.whitelistActive)?.name;
+
+        const instanceBTN = document.querySelector('.play-instance');
+        const instancePopup = document.querySelector('.instance-popup');
+        const instancesListPopup = document.querySelector('.instances-List');
+
+        instanceBTN.addEventListener('click', async e => {
+            if (e.target.classList.contains('instance-select')) {
+                instancesListPopup.innerHTML = '';
+                for (const instance of instancesList) {
+                    if (!instance.whitelistActive || instance.whitelist.includes(auth?.name)) {
+                        instancesListPopup.innerHTML += `
+                            <div id="${instance.name}" class="instance-elements ${instance.name === instanceSelect ? 'active-instance' : ''}">
+                                ${instance.name}
+                            </div>`;
+                    }
+                }
+                instancePopup.style.display = 'flex';
+            } else {
+                this.startGame();
+            }
+        });
+
+        instancePopup.addEventListener('click', async e => {
+            if (e.target.classList.contains('instance-elements')) {
+                const newInstanceSelect = e.target.id;
+                configClient.instance_select = newInstanceSelect;
+                await this.db.updateData('configClient', configClient);
+                instanceSelect = newInstanceSelect;
+                instancePopup.style.display = 'none';
+                await this.instancesSelect();
+            }
+        });
+
+        const selectedInstance = instancesList.find(i => i.name === instanceSelect);
+        if (selectedInstance) {
+            document.querySelector('.play-instance-name').textContent = selectedInstance.name;
+            setStatus(selectedInstance);
+        }
+    }
+
+    async startGame() {
+        const instances = await config.getInstanceList();
+        const selectedInstance = instances.find(i => i.name === configClient.instance_select);
+
+        if (!selectedInstance || !selectedInstance.url) {
+            return popup("Erreur : l'URL de l'instance sélectionnée est invalide ou non trouvée.");
+        }
+
+        const auth = await this.db.readData('accounts', configClient.account_selected);
+        const launcher = new Launch();
+
+        try {
+            await launcher.launch({
+                url: selectedInstance.url,
+                authenticator: auth,
+                launcher_name: pkg.name,
+                launcher_version: pkg.version
+            });
+        } catch (e) {
+            console.error("Erreur lors du lancement :", e);
+            popup("Erreur : Impossible de lancer le jeu.");
+        }
     }
 }
 
-
-export {
-    appdata as appdata,
-    changePanel as changePanel,
-    config as config,
-    database as database,
-    logger as logger,
-    popup as popup,
-    setBackground as setBackground,
-    skin2D as skin2D,
-    addAccount as addAccount,
-    accountSelect as accountSelect,
-    slider as Slider,
-    pkg as pkg,
-    setStatus as setStatus
-}
+module.exports = Home;
