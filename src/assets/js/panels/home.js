@@ -25,7 +25,7 @@ class Home {
             if (!news.length) {
                 let blockNews = document.createElement('div');
                 blockNews.classList.add('news-block');
-                blockNews.innerHTML = `
+                blockNews.innerHTML = 
                     <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
@@ -40,14 +40,14 @@ class Home {
                         <div class="bbWrapper">
                             <p>Vous pourrez suivre ici toutes les news relative au serveur.</p>
                         </div>
-                    </div>`
+                    </div>
                 newsElement.appendChild(blockNews);
             } else {
                 for (let News of news) {
                     let date = this.getdate(News.publish_date)
                     let blockNews = document.createElement('div');
                     blockNews.classList.add('news-block');
-                    blockNews.innerHTML = `
+                    blockNews.innerHTML = 
                         <div class="news-header">
                             <img class="server-status-icon" src="assets/images/icon.png">
                             <div class="header-text">
@@ -63,14 +63,14 @@ class Home {
                                 <p>${News.content.replace(/\n/g, '</br>')}</p>
                                 <p class="news-author">Auteur - <span>${News.author}</span></p>
                             </div>
-                        </div>`
+                        </div>
                     newsElement.appendChild(blockNews);
                 }
             }
         } else {
             let blockNews = document.createElement('div');
             blockNews.classList.add('news-block');
-            blockNews.innerHTML = `
+            blockNews.innerHTML = 
                 <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
@@ -85,7 +85,7 @@ class Home {
                         <div class="bbWrapper">
                             <p>Impossible de contacter le serveur des news.</br> {ERREUR-srv17}.</p>
                         </div>
-                    </div>`
+                    </div>
             newsElement.appendChild(blockNews);
         }
     }
@@ -137,7 +137,7 @@ class Home {
                         await this.db.updateData('configClient', configClient)
                     }
                 }
-            } else console.log(`Initializing instance ${instance.name}...`)
+            } else console.log(Initializing instance ${instance.name}...)
             if (instance.name == instanceSelect) setStatus(instance.status)
         }
 
@@ -173,17 +173,17 @@ class Home {
                         instance.whitelist.map(whitelist => {
                             if (whitelist == auth?.name) {
                                 if (instance.name == instanceSelect) {
-                                    instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`
+                                    instancesListPopup.innerHTML += <div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>
                                 } else {
-                                    instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`
+                                    instancesListPopup.innerHTML += <div id="${instance.name}" class="instance-elements">${instance.name}</div>
                                 }
                             }
                         })
                     } else {
                         if (instance.name == instanceSelect) {
-                            instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`
+                            instancesListPopup.innerHTML += <div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>
                         } else {
-                            instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`
+                            instancesListPopup.innerHTML += <div id="${instance.name}" class="instance-elements">${instance.name}</div>
                         }
                     }
                 }
@@ -213,7 +213,7 @@ class Home {
             url: options.url,
             authenticator: authenticator,
             timeout: 10000,
-            path: `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`,
+            path: ${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : .${this.config.dataDirectory}},
             instance: options.name,
             version: options.loadder.minecraft_version,
             detached: configClient.launcher_config.closeLauncher == "close-all" ? false : true,
@@ -238,8 +238,8 @@ class Home {
             },
 
             memory: {
-                min: `${configClient.java_config.java_memory.min * 1024}M`,
-                max: `${configClient.java_config.java_memory.max * 1024}M`
+                min: ${configClient.java_config.java_memory.min * 1024}M,
+                max: ${configClient.java_config.java_memory.max * 1024}M
             }
         }
 
@@ -256,14 +256,14 @@ class Home {
         });
 
         launch.on('progress', (progress, size) => {
-            infoStarting.innerHTML = `Téléchargement ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = Téléchargement ${((progress / size) * 100).toFixed(0)}%
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
         });
 
         launch.on('check', (progress, size) => {
-            infoStarting.innerHTML = `Vérification ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = Vérification ${((progress / size) * 100).toFixed(0)}%
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
@@ -273,17 +273,17 @@ class Home {
             let hours = Math.floor(time / 3600);
             let minutes = Math.floor((time - hours * 3600) / 60);
             let seconds = Math.floor(time - hours * 3600 - minutes * 60);
-            console.log(`${hours}h ${minutes}m ${seconds}s`);
+            console.log(${hours}h ${minutes}m ${seconds}s);
         })
 
         launch.on('speed', (speed) => {
-            console.log(`${(speed / 1067008).toFixed(2)} Mb/s`)
+            console.log(${(speed / 1067008).toFixed(2)} Mb/s)
         })
 
         launch.on('patch', patch => {
             console.log(patch);
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = `Patch en cours...`
+            infoStarting.innerHTML = Patch en cours...
         });
 
         launch.on('data', (e) => {
@@ -293,7 +293,7 @@ class Home {
             };
             new logger('Minecraft', '#36b030');
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = `Demarrage en cours...`
+            infoStarting.innerHTML = Demarrage en cours...
             console.log(e);
         })
 
@@ -304,7 +304,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = `Vérification`
+            infoStarting.innerHTML = Vérification
             new logger(pkg.name, '#7289da');
             console.log('Close');
         });
@@ -325,7 +325,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = `Vérification`
+            infoStarting.innerHTML = Vérification
             new logger(pkg.name, '#7289da');
             console.log(err);
         });
@@ -341,3 +341,4 @@ class Home {
     }
 }
 export default Home;
+
