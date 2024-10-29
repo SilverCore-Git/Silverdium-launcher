@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2  # Utilisez la même version que pour le job précédent
 
       - name: Set up Node
         uses: actions/setup-node@v3
