@@ -192,6 +192,7 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
+    transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
 }
 
 .social-block .icon-social {
@@ -201,6 +202,13 @@
     width: 55%;
     filter: var(--svg-color);
 }
+
+.social-block:hover {
+    opacity: 0.8;
+    height: 95px;
+    width: 95px;
+}
+
 
 /*******************************************************************************
  *                                                                             *
@@ -245,6 +253,7 @@
 
 .play-elements {
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
 }
@@ -260,6 +269,19 @@
     padding-right: 1.9rem;
 }
 
+.aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(175, 255, 255, 0.5);
+    border-radius: 10px; 
+    transform: translate(-50%, -50%) scale(0); 
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
 .play-btn {
     border: none;
     border-radius: 10px;
@@ -268,8 +290,19 @@
     font-size: 2rem;
     font-weight: bolder;
     padding: 0 1.5rem;
-    pointer-events: none;
+    pointer-events: auto;
+    transition: padding 0.5s ease, color 0.4s ease;
 }
+
+.play-btn:hover {
+    padding: 0 2.5rem;
+    color: #ffffff;
+}
+
+.play-instance:hover .aura {
+    transform: translate(-50%, -50%) scale(1);
+}
+
 
 .instance-select {
     display: flex;
@@ -315,12 +348,21 @@
 }
 
 .settings-btn {
+    cursor: pointer;
     width: 3rem;
     height: 3rem;
     font-size: 3rem;
     color: var(--element-color);
     margin: 0 1.5rem;
+    transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
 }
+
+.settings-btn:hover {
+    opacity: 0.8;
+    width: 4rem;
+    height: 4rem;
+}
+
 
 .instance-popup {
     position: absolute;

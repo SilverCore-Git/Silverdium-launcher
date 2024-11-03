@@ -73,7 +73,7 @@ class Login {
             if (emailOffline.value.length < 3) {
                 popupLogin.openPopup({
                     title: 'Erreur',
-                    content: 'Votre pseudo doit faire au moins 3 caractères. <br>(ex : je = pas ça)',
+                    content: 'Votre pseudo doit faire au moins 3 caractères.',
                     options: true
                 });
                 return;

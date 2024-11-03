@@ -3,7 +3,7 @@
         <p>Paramètres</p>
         <div class="nav-box">
             <div id="account" class="nav-settings-btn active-settings-BTN">COMPTES</div>
-            <div id="java" class="nav-settings-btn">JAVA</div>
+            <div id="java" class="nav-settings-btn">RAM</div>
             <div id="resolution" class="nav-settings-btn">RESOLUTION</div>
             <div id="launcher" class="nav-settings-btn">LAUNCHER</div>
             <div id="save" class="nav-settings-btn">ACCUEIL</div>
@@ -27,14 +27,16 @@
         <div class="titre-tab">Paramètre de votre RAM</div>
         <div class="settings-elements-box">
             <div class="setting-text">
-                Définition de la RAM alloué à votre jeu, une quantité plus important augmenteras les performances de
-                votre jeu.<br>
-                A noter qu'il faut éviter de mettre une trop grande quantité sinon cela peut provoquer des pertes de
+                <h2><div class="underline">Définir la RAM alloué à votre jeu,</div><br>
+                Silverdium vous conseil les reglages suivant<br>
+                selont la quantité de RAM que vôtre pc possede :<br>
+                <strong>8G -> 6G | 16G -> 8G | 32G -> 16G | 64G -> 16G</strong></h2>
+                <h4>A noter qu'il faut éviter de mettre une trop grande quantité sinon cela peut provoquer des pertes de
                 performances sur vos autres applications.<br><br>
                 <b>-RAM Maximale:</b> Indique la quantité totale de RAM allouée à votre jeu. Il est recommandé de ne pas
                 dépasser 50% de la quantité totale de RAM présente sur votre PC.<br><br>
                 <b>-RAM Minimale:</b> Indique la quantité minimale de RAM allouée au démarrage de votre jeu. Il est
-                recommandé de ne pas mettre plus de 4Go pour cette valeur.
+                recommandé de ne pas mettre plus de 4Go pour cette valeur.</h4>
             </div>
             <div class="settings-elements content-evenly">
                 <div class="memory-slider" min="0.5" max="8" step="0.5">
@@ -50,12 +52,14 @@
                 </div>
                 <div class="ram-info-block">
                     <b>Vous possédez un total de <span id="total-ram">0 Go</span> RAM.</b><br>
+                    <!-- fonction bug si bcp app ouvert -->
                     <b>Vous possédez un total de <span id="free-ram">0 Go</span> RAM disponible.</b>
                 </div>
             </div>
         </div>
 
-        <div class="titre-tab">Emplacement de Java</div>
+        <!-- Fonction non utile pour launcher de silverdium -->
+        <!-- <div class="titre-tab">Emplacement de Java</div>
         <div class="settings-elements-box">
             <div class="setting-text">
                 Le launcher utilise une version embarquée de Java.<br>
@@ -71,16 +75,17 @@
                     <div class="java-path-reset java-path-btn">Par defaut</div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div id="resolution-tab" class="container-settings">
         <div class="titre-tab">Paramètres de resolution Minecraft</div>
         <div class="settings-elements-box">
             <div class="setting-text">
-                Définissez une résolution personnalisée afin d'avoir un jeu adapté à votre écran.<br>
+                <h3>Définissez une résolution personnalisée afin d'avoir un jeu adapté à votre écran.<br>
                 Par défaut le jeu démarre en 854 X 480,<br>vous pouvez modifier cette valeur pour un confort de jeu
-                optimal. La résolution idéale est de 1280 X 720.
+                optimal. La résolution idéale est de 1920 x 1080 mais vôtre pc n'est paut être pas assé puissant.</h3>
+                <h4>Résolution recommandé : 1920 x 1080 | 1080 x 720 | 1280 x 720 | 854 x 480</h4>
             </div>
             <div class="settings-elements content-center">
                 <div class="input-size-element">

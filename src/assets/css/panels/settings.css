@@ -40,6 +40,11 @@
     text-align: center;
     margin: 0.5rem 0;
     cursor: pointer;
+    transition: width 0.4s ease;
+}
+
+.nav-settings-btn:hover {
+    width: 78%;
 }
 
 .active-settings-BTN {
@@ -207,7 +212,7 @@
 
 /*******************************************************************************
  *                                                                             *
- * java tab                                                                    *
+ * java | RAM tab                                                              *
  *                                                                             *
  ******************************************************************************/
 
@@ -217,6 +222,10 @@
     height: 18px;
     width: 50%;
     user-select: none;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 .slider-touch-left,

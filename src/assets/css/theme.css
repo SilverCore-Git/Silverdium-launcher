@@ -6,7 +6,7 @@
 }
 
 .dark {
-    --color: #F5F5F5;
+    --color: #38e1ff;
     --background: #292929;
     --background-element: #424242;
     --background-transparent: #2c2c2ccc;
@@ -15,7 +15,7 @@
 }
 
 .light {
-    --color: #151515;
+    --color: #2b1272;
     --background: rgb(245, 245, 245);
     --background-element: #c2c2c2;
     --background-transparent: rgba(204, 204, 204, 0.8);

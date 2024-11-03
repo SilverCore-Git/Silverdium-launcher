@@ -25,17 +25,24 @@
     font-size: 1.3rem;
 }
 
-.connect,
-.cancel {
+.connect, .cancel {
     background: none;
     color: var(--color);
     border: solid 4px var(--element-color);
     border-radius: 10px;
-    padding: 0.3rem 4rem;
+    padding: 0.3rem 4rem;       
     font-size: inherit;
     font-weight: bold;
+    cursor: pointer;
     margin: 15px 10px;
+    transition: margin 0.4s ease, padding 0.4s ease;
 }
+
+.connect:hover, .cancel:hover {
+    margin: 20px 15px;
+    padding: 0.5rem 4.5rem;
+}
+
 
 .input-login .email,
 .input-login .password,

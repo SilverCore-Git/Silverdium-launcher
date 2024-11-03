@@ -125,7 +125,9 @@ class Settings {
     async ram() {
         let config = await this.db.readData('configClient');
         let totalMem = Math.trunc(os.totalmem() / 1073741824 * 10) / 10;
-        let freeMem = Math.trunc(os.freemem() / 1073741824 * 10) / 10;
+        // Fonction n'est pas representative
+        // let freeMem = Math.trunc(os.freemem() / 1073741824 * 10) / 10;
+        let freeMem = "#"
 
         document.getElementById("total-ram").textContent = `${totalMem} Go`;
         document.getElementById("free-ram").textContent = `${freeMem} Go`;
