@@ -34,8 +34,10 @@ class Splash {
             { "message": "Je... vie...", "author": "Luuxis" },
             { "message": "Salut je suis du code.", "author": "Luuxis" },
             { "message": "Linux n'est pas un os, mais un kernel.", "author": "Luuxis" },
+            { "message": "Mister papaye, co fondateur de Silverdium.", "author": "Papaye" },
             { "message": "Kind of dragon free! ", "author": "Notch" },
             { "message": "Les distribution Linux sont sécurisé.", "author": "Papaye" },
+            { "message": "Jemy5, co fondateur de Silverdium.", "author": "Papaye" },
             { "message": "Les distribution Linux sont légere.", "author": "Papaye" },
         ];
         let splash = splashes[Math.floor(Math.random() * splashes.length)];
@@ -58,11 +60,11 @@ class Splash {
         this.setStatus(`Recherche de mise à jour...`);
 
         ipcRenderer.invoke('update-app').then().catch(err => {
-            return this.shutdown(`erreur lors de la recherche de mise à jour :<br>${err.message}`);
+            return this.shutdown(`erreur lors de la recherche de mise à jour (oh non.) :<br>${err.message}`);
         });
 
         ipcRenderer.on('updateAvailable', () => {
-            this.setStatus(`Mise à jour disponible !`);
+            this.setStatus(`Mise à jour disponible ! (youuupiii !!)`);
             if (os.platform() == 'win32') {
                 this.toggleProgress();
                 ipcRenderer.send('start-update');
@@ -80,7 +82,7 @@ class Splash {
         })
 
         ipcRenderer.on('update-not-available', () => {
-            console.error("Mise à jour non disponible");
+            console.error("Mise à jour non disponible (yesss !!)");
             this.maintenanceCheck();
         })
     }
@@ -109,10 +111,10 @@ class Splash {
         else if (os == 'linux') latest = this.getLatestReleaseForOS('linux', '.appimage', latestRelease);
 
 
-        this.setStatus(`Mise à jour disponible !<br><div class="download-update">Télécharger</div>`);
+        this.setStatus(`Mise à jour disponible ! (yess !)<br><div class="download-update">Télécharger</div>`);
         document.querySelector(".download-update").addEventListener("click", () => {
             shell.openExternal(latest.browser_download_url);
-            return this.shutdown("Téléchargement en cours...");
+            return this.shutdown("Téléchargement en cours... <br><h4>(10 d'tit mega sa use, sa use... 10 d'tit giga sa use, sa use...)</h4> ");
         });
     }
 
@@ -123,12 +125,12 @@ class Splash {
             this.startLauncher();
         }).catch(e => {
             console.error(e);
-            return this.shutdown("Aucune connexion aux API détectée,<br>veuillez réessayer ultérieurement.");
+            return this.shutdown("Aucune connexion aux API détectée,<br><h4>(ohh non !)</h4><br>veuillez réessayer ultérieurement.");
         })
     }
 
     startLauncher() {
-        this.setStatus(`Démarrage du launcher`);
+        this.setStatus(`Démarrage du launcher... (yes !)`);
         ipcRenderer.send('main-window-open');
         ipcRenderer.send('update-window-close');
     }

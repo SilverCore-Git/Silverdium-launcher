@@ -168,7 +168,7 @@
 .social-tab {
     position: absolute;
     display: flex;
-    bottom: 0;
+    bottom: 100;
     right: 0;
     width: 15%;
     height: calc(80% - 1rem);

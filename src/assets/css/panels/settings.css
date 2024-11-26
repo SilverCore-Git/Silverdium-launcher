@@ -51,6 +51,41 @@
     background: var(--element-color);
 }
 
+.restore-btn {
+    margin: 0 1rem;
+    padding: calc(0.1rem + 4px) calc(1.5rem + 4px);
+    border-radius: 15px;
+    background: var(--dark-color);
+    color: var(--light-color);
+    border: 2px solid var(--color);
+    cursor: pointer;
+    transition: 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.restore-btn:hover {
+    background: var(--light-color);
+    color: var(--dark-color);
+    border-color: var(--hover-color);
+}
+
+.uninst-btn {
+    margin: 0 1rem;
+    padding: calc(0.1rem + 4px) calc(1.5rem + 4px);
+    border-radius: 15px;
+    background: var(--dark-color);
+    color: var(--light-color);
+    border: 2px solid var(--color);
+    cursor: pointer;
+    transition: 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.uninst-btn:hover {
+    background: var(--light-color);
+    color: var(--dark-color);
+    border-color: var(--hover-color);
+}
+
+
 .container-settings {
     position: absolute;
     display: flex;

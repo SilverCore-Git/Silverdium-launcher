@@ -1,15 +1,12 @@
-/**
- * @author Silverdium
- * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
- */
-const { AZauth, Mojang } = require('minecraft-java-core');
+const { AZauth, Mojang } = require('silver-mc-java-core');
 const { ipcRenderer } = require('electron');
 
-import { popup, database, changePanel, accountSelect, addAccount, config, setStatus } from '../utils.js';
-
+import { popup, database, changePanel, accountSelect, addAccount, config, setStatus, pkg, Dbot } from '../utils.js';
+ 
 class Login {
     static id = "login";
     async init(config) {
+        console.log('--------------------LOGIN PANEL--------------------');
         this.config = config;
         this.db = new database();
 
@@ -25,6 +22,8 @@ class Login {
             document.querySelector('.cancel-home').style.display = 'none'
             changePanel('settings')
         })
+        console.log('Loading Dbot class drom ../dbot.js');
+        const dbot = new Dbot;
     }
 
     async getMicrosoft() {
@@ -62,6 +61,7 @@ class Login {
 
     async getCrack() {
         console.log('Initializing offline login...');
+        let typeconte = 'Offline';
         let popupLogin = new popup();
         let loginOffline = document.querySelector('.login-offline');
 
@@ -73,7 +73,7 @@ class Login {
             if (emailOffline.value.length < 3) {
                 popupLogin.openPopup({
                     title: 'Erreur',
-                    content: 'Votre pseudo doit faire au moins 3 caractères.',
+                    content: 'Votre pseudo doit faire au moins 3 caractères. \n(pas 1, pas -13. peut être 2? non toujours pas.) ',
                     options: true
                 });
                 return;
@@ -105,6 +105,7 @@ class Login {
 
     async getAZauth() {
         console.log('Initializing AZauth login...');
+        let typeconte = 'AZauth';
         let AZauthClient = new AZauth(this.config.online);
         let PopupLogin = new popup();
         let loginAZauth = document.querySelector('.login-AZauth');
@@ -116,6 +117,11 @@ class Login {
         let connectAZauthA2F = document.querySelector('.connect-AZauth-A2F');
         let AZauthConnectBTN = document.querySelector('.connect-AZauth');
         let AZauthCancelA2F = document.querySelector('.cancel-AZauth-A2F');
+        let registered = document.querySelector('.register-AZauth');
+
+        registered.addEventListener('click', async () => {
+            window.location.href = 'http://82.64.217.99:8880/user/register';
+        })
 
         loginAZauth.style.display = 'block';
 

@@ -8,26 +8,36 @@ import Home from './panels/home.js';
 import Settings from './panels/settings.js';
 
 // import modules
-import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg } from './utils.js';
-const { AZauth, Microsoft, Mojang } = require('minecraft-java-core');
+import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg, Salert } from './utils.js';
+const { AZauth, Microsoft, Mojang } = require('silver-mc-java-core');
 
 // libs
 const { ipcRenderer } = require('electron');
+const Swal = require('sweetalert2');
 const fs = require('fs');
 
 class Launcher {
     async init() {
         this.initLog();
+        console.log('--------------------LAUNCHER STARTING--------------------');
         console.log('Initializing Launcher...');
         this.shortcut()
+        console.log('Initializing back ground...');
         await setBackground()
         if (process.platform == 'win32') this.initFrame();
         this.config = await config.GetConfig().then(res => res).catch(err => err);
         if (await this.config.error) return this.errorConnect()
+        console.log('Initializing database...');
         this.db = new database();
         await this.initConfigClient();
+        console.log('Initializing panels : (Login, Home, Settings)...');
         this.createPanels(Login, Home, Settings);
+        console.log('--------------------LAUNCHER START--------------------');
+        console.log('Initializing end !');
+        console.log('Starting launcher...');
         this.startLauncher();
+        this.maintenance();
+        this.donsvp();
     }
 
     initLog() {
@@ -37,7 +47,7 @@ class Launcher {
                 ipcRenderer.send('main-window-dev-tools');
             }
         })
-        new logger(pkg.name, '#7289da')
+        new logger(pkg.loggername, '#f270ff');
     }
 
     shortcut() {
@@ -48,8 +58,8 @@ class Launcher {
         })
     }
 
-
     errorConnect() {
+        console.log('loading errorConnect function...');
         new popup().openPopup({
             title: this.config.error.code,
             content: this.config.error.message,
@@ -59,7 +69,44 @@ class Launcher {
         });
     }
 
+    maintenance() {
+        console.log('loading maintenance function...');
+        if (this.config.endev === true) {
+            console.log('Le serveur est actuellement en maintenance.');
+            Salert('Silverdium Launcher', '<h4><strong>Le serveur Silverdium<br>est actuelement en maintenance.</strong><br><i>reessayer plus tard...</i></h4>', 'info', true, false);
+        } else if (this.config.endev === false) {
+            console.log('maintenance false');
+            return this.startLauncher()
+        } else {
+            console.log('Error: config.endev is not defined.');
+            return this.startLauncher()
+        }
+    }
+
+    donsvp() {
+        console.log('loading donsvp function...');
+        if (Math.random() < 0.2) {
+            console.log('executing donsvp alert...');
+            Salert('<h1>Silverdium Launcher<h1>', `
+                <h2>Vous pouvez aider Silverdium,<br>avec un €, vous pouvez déjà
+                <br>bien nous aider et obtenir de nombreux avantage.</h2><br>
+                    <a href="https://tipeee.com/silverdium"
+                    style="
+                        margin: 0 1rem;
+                        padding: calc(0.1rem + 4px) calc(1.5rem + 4px);
+                        border-radius: 15px;
+                        background: var(--dark-color);
+                        color: var(--light-color);
+                        border: 2px solid var(--color);
+                        cursor: pointer;
+                        transition: 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+                    ">Tipeee</a>
+                `, 'warning', true, false);
+        }
+    }
+
     initFrame() {
+        console.log('loading initFrame function...');
         console.log('Initializing Frame...')
         document.querySelector('.frame').classList.toggle('hide')
         document.querySelector('.dragbar').classList.toggle('hide')
@@ -84,6 +131,7 @@ class Launcher {
     }
 
     async initConfigClient() {
+        console.log('loading initConfigClient function...');
         console.log('Initializing Config Client...')
         let configClient = await this.db.readData('configClient')
 
@@ -115,9 +163,11 @@ class Launcher {
     }
 
     createPanels(...panels) {
+        console.log('loading createPanels function...');
         let panelsElem = document.querySelector('.panels')
         for (let panel of panels) {
             console.log(`Initializing ${panel.name} Panel...`);
+            console.log(`${panel.name} loading and initializing end !`);
             let div = document.createElement('div');
             div.classList.add('panel', panel.id)
             div.innerHTML = fs.readFileSync(`${__dirname}/panels/${panel.id}.html`, 'utf8');
@@ -127,6 +177,7 @@ class Launcher {
     }
 
     async startLauncher() {
+        console.log('loading startLauncher function...');
         let accounts = await this.db.readAllData('accounts')
         let configClient = await this.db.readData('configClient')
         let account_selected = configClient ? configClient.account_selected : null

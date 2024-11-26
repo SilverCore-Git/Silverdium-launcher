@@ -4,7 +4,7 @@
  */
 
 const { app, ipcMain, nativeTheme } = require('electron');
-const { Microsoft } = require('minecraft-java-core');
+const { Microsoft } = require('silver-mc-java-core');
 const { autoUpdater } = require('electron-updater')
 
 const path = require('path');
@@ -39,7 +39,6 @@ ipcMain.on('main-window-progress', (event, options) => MainWindow.getWindow().se
 ipcMain.on('main-window-progress-reset', () => MainWindow.getWindow().setProgressBar(-1))
 ipcMain.on('main-window-progress-load', () => MainWindow.getWindow().setProgressBar(2))
 ipcMain.on('main-window-minimize', () => MainWindow.getWindow().minimize())
-
 ipcMain.on('update-window-close', () => UpdateWindow.destroyWindow())
 ipcMain.on('update-window-dev-tools', () => UpdateWindow.getWindow().webContents.openDevTools({ mode: 'detach' }))
 ipcMain.on('update-window-progress', (event, options) => UpdateWindow.getWindow().setProgressBar(options.progress / options.size))

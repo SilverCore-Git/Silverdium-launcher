@@ -9,9 +9,10 @@
     position: absolute;
     padding: 15px;
     background: var(--background);
-    border-radius: 15px;
     text-align: center;
     min-width: 40%;
+    box-shadow: 0 0px 10000px rgba(0, 0, 0, 1);
+    border-radius: 15px;
 }
 
 .login-home,
@@ -25,7 +26,7 @@
     font-size: 1.3rem;
 }
 
-.connect, .cancel {
+.connect, .cancel, .register {
     background: none;
     color: var(--color);
     border: solid 4px var(--element-color);
@@ -38,9 +39,9 @@
     transition: margin 0.4s ease, padding 0.4s ease;
 }
 
-.connect:hover, .cancel:hover {
-    margin: 20px 15px;
-    padding: 0.5rem 4.5rem;
+.connect:hover, .cancel:hover, .register:hover {
+    margin: 17px 12px;
+    padding: 0.4rem 4.1rem;
 }
 
 

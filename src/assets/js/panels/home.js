@@ -2,7 +2,8 @@
  * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
-import { config, database, logger, changePanel, appdata, setStatus, pkg, popup } from '../utils.js'
+
+import { config, database, logger, changePanel, appdata, setStatus, pkg, popup } from '../utils.js';
 
 const { Launch } = require('minecraft-java-core')
 const { shell, ipcRenderer } = require('electron')
@@ -10,6 +11,8 @@ const { shell, ipcRenderer } = require('electron')
 class Home {
     static id = "home";
     async init(config) {
+        console.log('--------------------HOME PANEL--------------------');
+        console.log('loading home panel...');
         this.config = config;
         this.db = new database();
         this.news()
@@ -17,8 +20,10 @@ class Home {
         this.instancesSelect()
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
     }
-
+    
     async news() {
+        console.log('loading news async function...');
+        console.log('loading the news...');
         let newsElement = document.querySelector('.news-list');
         let news = await config.getNews().then(res => res).catch(err => false);
         if (news) {
@@ -83,7 +88,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>Impossible de contacter le serveur des news.</br> {ERREUR-srv17}.</p>
+                            <p>Impossible de contacter le serveur d'API/news.</br> {ERREUR-srv17}.</p>
                         </div>
                     </div>`
             newsElement.appendChild(blockNews);
@@ -91,7 +96,13 @@ class Home {
     }
 
     socialLick() {
+        console.log('loading socialLinck function...');
         let socials = document.querySelectorAll('.social-block')
+        let webbtn = document.querySelector('.web-button');
+
+        webbtn.addEventListener('click', e => {
+            shell.openExternal(e.target.dataset.url)
+        })
 
         socials.forEach(social => {
             social.addEventListener('click', e => {
@@ -101,6 +112,7 @@ class Home {
     }
 
     async instancesSelect() {
+        console.log('loading instancesSelect async function...');
         let configClient = await this.db.readData('configClient')
         let auth = await this.db.readData('accounts', configClient.account_selected)
         let instancesList = await config.getInstanceList()
@@ -198,6 +210,8 @@ class Home {
     }
 
     async startGame() {
+        console.log('loading startGame async function...');
+        console.log('Launching game...');
         let launch = new Launch()
         let configClient = await this.db.readData('configClient')
         let instance = await config.getInstanceList()
@@ -209,10 +223,11 @@ class Home {
         let infoStarting = document.querySelector(".info-starting-game-text")
         let progressBar = document.querySelector('.progress-bar')
 
+        console.log(`loading config.dataDirectory in : ${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`);
         let opt = {
             url: options.url,
             authenticator: authenticator,
-            timeout: 10000,
+            timeout: 10000,          
             path: `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`,
             instance: options.name,
             version: options.loadder.minecraft_version,
@@ -243,6 +258,7 @@ class Home {
             }
         }
 
+        console.log('loading client options...');
         launch.Launch(opt);
 
         playInstanceBTN.style.display = "none"
@@ -256,6 +272,7 @@ class Home {
         });
 
         launch.on('progress', (progress, size) => {
+            console.log('Téléchargement des données...')
             infoStarting.innerHTML = `Téléchargement ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
@@ -263,6 +280,7 @@ class Home {
         });
 
         launch.on('check', (progress, size) => {
+            console.log('Vérification des données...')
             infoStarting.innerHTML = `Vérification ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
@@ -273,11 +291,11 @@ class Home {
             let hours = Math.floor(time / 3600);
             let minutes = Math.floor((time - hours * 3600) / 60);
             let seconds = Math.floor(time - hours * 3600 - minutes * 60);
-            console.log(`${hours}h ${minutes}m ${seconds}s`);
+            console.log(`Durée estimé : ${hours}h ${minutes}m ${seconds}s`);
         })
 
         launch.on('speed', (speed) => {
-            console.log(`${(speed / 1067008).toFixed(2)} Mb/s`)
+            console.log(`debit : ${(speed / 1067008).toFixed(2)} Mb/s`)
         })
 
         launch.on('patch', patch => {
@@ -289,15 +307,17 @@ class Home {
         launch.on('data', (e) => {
             progressBar.style.display = "none"
             if (configClient.launcher_config.closeLauncher == 'close-launcher') {
+                console.log('Arret du jeux.');
                 ipcRenderer.send("main-window-hide")
             };
-            new logger('Minecraft', '#36b030');
+            new logger(`${pkg.mcloggername}`, '#36b030'); 
             ipcRenderer.send('main-window-progress-load')
             infoStarting.innerHTML = `Demarrage en cours...`
             console.log(e);
         })
 
         launch.on('close', code => {
+            console.log('Arret du jeux.');
             if (configClient.launcher_config.closeLauncher == 'close-launcher') {
                 ipcRenderer.send("main-window-show")
             };
@@ -313,7 +333,7 @@ class Home {
             let popupError = new popup()
 
             popupError.openPopup({
-                title: 'Erreur',
+                title: 'Erreur lors du lancement du jeux',
                 content: err.error,
                 color: 'red',
                 options: true
@@ -332,6 +352,7 @@ class Home {
     }
 
     getdate(e) {
+        console.log('loading getdate function...');
         let date = new Date(e)
         let year = date.getFullYear()
         let month = date.getMonth() + 1
@@ -340,4 +361,5 @@ class Home {
         return { year: year, month: allMonth[month - 1], day: day }
     }
 }
+
 export default Home;

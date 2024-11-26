@@ -4,14 +4,19 @@
  */
 
 const { ipcRenderer } = require('electron')
-const { Status } = require('minecraft-java-core')
+const { Status } = require('silver-mc-java-core')
 const fs = require('fs');
 const pkg = require('../package.json');
 
 import config from './utils/config.js';
 import database from './utils/database.js';
 import logger from './utils/logger.js';
+import { createFile } from './utils/uninst.js';
+import Date from './utils/date.js';
+import Salert from './utils/alert.js';
+import Dbot  from './dbot.js';
 import popup from './utils/popup.js';
+import { viderDossier } from './utils/viderdossier.js';
 import { skin2D } from './utils/skin.js';
 import slider from './utils/slider.js';
 
@@ -47,6 +52,10 @@ async function changePanel(id) {
 
 async function appdata() {
     return await ipcRenderer.invoke('appData').then(path => path)
+}
+
+export function register() {
+    window.location.href = 'http://82.64.217.99:8880/api/Silverdium/launcher-api/silverdium-acces/register.html';
 }
 
 async function addAccount(data) {
@@ -117,10 +126,15 @@ async function setStatus(opt) {
 export {
     appdata as appdata,
     changePanel as changePanel,
+    viderDossier as viderDossier,
+    Salert as Salert,
     config as config,
+    Date as Date,
     database as database,
     logger as logger,
     popup as popup,
+    Dbot as Dbot,
+    createFile as createFile,
     setBackground as setBackground,
     skin2D as skin2D,
     addAccount as addAccount,

@@ -1,15 +1,22 @@
 {
-    "name": "Silverdium-Launcher",
+    "name": "silverdium-launcher",
     "preductname": "Silverdium Launcher",
-    "version": "1.0.2",
+    "gamename": "Silverdium | V1 | 1.16.5",
+    "version": "1.0.3",
     "description": "Launcher Mincraft pour le serveur Silverdium",
     "main": "src/app.js",
     "author": {
-        "name": "Silverdium",
-        "email": "#",
-        "url": "http://82.64.217.99/silverdium"
+        "name": "©Silverdium",
+        "email": "silverdium@hotmail.com",
+        "url": "http://82.64.217.99/silver"
     },
     "url": "http://82.64.217.99:8880/api/silverdium/launcher-api",
+    "loggername": "SuperLogger",
+    "mcloggername": "Silverdium",
+    "bottoken": "fonction en dev pour cause de cybersecu",
+    "dlogsalonId": "1309956146416844813",
+    "copyright": "Copyright © 2020-2024 Luuxis | © 2024-2025 Silverdium",
+    "releasetype": "release",
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
@@ -22,15 +29,23 @@
         "ignore": "**/test"
     },
     "dependencies": {
+        "cross-env-shell": "^7.0.3",
+        "discord-giveaways": "^6.0.1",
+        "discord.js": "^14.16.3",
         "electron-updater": "^6.1.8",
-        "minecraft-java-core": "^3.10.4",
+        "fs": "^0.0.1-security",
+        "minecraft-java-core": "^3.11.3",
+        "node": "^18.20.5",
         "node-bdd": "^2.0.4",
         "node-fetch": "^2.7.0",
+        "silver-mc-java-core": "^3.12.2",
+        "sudo-prompt": "^9.2.1",
+        "sweetalert2": "^11.14.5",
         "xml-js": "^1.6.11"
     },
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "electron": "^30.0.9",
+        "electron": "^30.5.1",
         "electron-builder": "^24.13.3",
         "javascript-obfuscator": "^4.1.0",
         "jimp": "^0.22.12",
@@ -39,6 +54,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Philippeletug/Silverdium-Launcher.git"
+        "url": "git+https://github.com/fPhilippeletug/Silverdium-Launcher.git"
     }
 }

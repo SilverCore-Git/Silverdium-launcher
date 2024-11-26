@@ -6,7 +6,7 @@ const nodeFetch = require('node-fetch')
 const png2icons = require('png2icons');
 const Jimp = require('jimp');
 
-const { preductname } = require('./package.json');
+const { preductname, copyright, releasetype } = require('./package.json');
 
 class Index {
     async init() {
@@ -65,7 +65,7 @@ class Index {
                 generateUpdatesFilesForAllChannels: false,
                 appId: preductname,
                 productName: preductname,
-                copyright: 'Copyright © 2020-2024 Luuxis',
+                copyright: copyright,
                 artifactName: "${productName}-${os}-${arch}.${ext}",
                 extraMetadata: { main: 'app/app.js' },
                 files: ["app/**/*", "package.json", "LICENSE.md"],
@@ -74,7 +74,7 @@ class Index {
                 asar: true,
                 publish: [{
                     provider: "github",
-                    releaseType: 'release',
+                    releaseType: releasetype,
                 }],
                 win: {
                     icon: "./app/assets/images/icon.ico",
@@ -84,10 +84,11 @@ class Index {
                     }]
                 },
                 nsis: {
-                    oneClick: true,
-                    allowToChangeInstallationDirectory: false,
+                    oneClick: false,
+                    allowToChangeInstallationDirectory: true,
                     createDesktopShortcut: true,
-                    runAfterFinish: true
+                    runAfterFinish: true,
+                    shortcutName: "Silverdium"
                 },
                 mac: {
                     icon: "./app/assets/images/icon.icns",

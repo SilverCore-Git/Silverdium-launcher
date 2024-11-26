@@ -3,13 +3,17 @@
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 
-import { changePanel, accountSelect, database, Slider, config, setStatus, popup, appdata, setBackground } from '../utils.js'
+import { changePanel, accountSelect, viderDossier, database, Slider, config, setStatus, popup, appdata, setBackground, Salert } from '../utils.js'
 const { ipcRenderer } = require('electron');
+const fs = require('fs');
+const path = require('path');
 const os = require('os');
 
 class Settings {
     static id = "settings";
     async init(config) {
+        console.log('--------------------SETTINGS PANEL--------------------');
+        console.log('loading settings panel...');
         this.config = config;
         this.db = new database();
         this.navBTN()
@@ -21,6 +25,7 @@ class Settings {
     }
 
     navBTN() {
+        console.log('loading navBTN function...');
         document.querySelector('.nav-box').addEventListener('click', e => {
             if (e.target.classList.contains('nav-settings-btn')) {
                 let id = e.target.id
@@ -47,6 +52,7 @@ class Settings {
     }
 
     accounts() {
+        console.log('loading accounts function...');
         document.querySelector('.accounts-list').addEventListener('click', async e => {
             let popupAccount = new popup()
             try {
@@ -103,6 +109,7 @@ class Settings {
     }
 
     async setInstance(auth) {
+        console.log('loading setInstance async function...');
         let configClient = await this.db.readData('configClient')
         let instanceSelect = configClient.instance_selct
         let instancesList = await config.getInstanceList()
@@ -123,6 +130,7 @@ class Settings {
     }
 
     async ram() {
+        console.log('loading ram async function...');
         let config = await this.db.readData('configClient');
         let totalMem = Math.trunc(os.totalmem() / 1073741824 * 10) / 10;
         // Fonction n'est pas representative
@@ -138,12 +146,12 @@ class Settings {
         let ram = config?.java_config?.java_memory ? {
             ramMin: config.java_config.java_memory.min,
             ramMax: config.java_config.java_memory.max
-        } : { ramMin: "1", ramMax: "2" };
+        } : { ramMin: "1", ramMax: "6" };
 
         if (totalMem < ram.ramMin) {
             config.java_config.java_memory = { min: 1, max: 2 };
             this.db.updateData('configClient', config);
-            ram = { ramMin: "1", ramMax: "2" }
+            ram = { ramMin: "1", ramMax: "6" }
         };
 
         let slider = new Slider(".memory-slider", parseFloat(ram.ramMin), parseFloat(ram.ramMax));
@@ -161,9 +169,10 @@ class Settings {
             config.java_config.java_memory = { min: min, max: max };
             this.db.updateData('configClient', config);
         });
-    }
+    }    
 
     async javaPath() {
+        console.log('loading javaPath async function...');
         let javaPathText = document.querySelector(".java-path-txt")
         javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
 
@@ -189,7 +198,7 @@ class Settings {
                 javaPathInputTxt.value = file;
                 configClient.java_config.java_path = file
                 await this.db.updateData('configClient', configClient);
-            } else alert("Le nom du fichier doit être java(.exe) ou javaw(.exe)");
+            } else Salert('Silverdium Launcher', "<h3>Le nom du fichier doit être java(.exe) ou javaw(.exe)</h3>", 'info', true, false);
         });
 
         document.querySelector(".java-path-reset").addEventListener("click", async () => {
@@ -201,6 +210,7 @@ class Settings {
     }
 
     async resolution() {
+        console.log('loading resolution async function...');
         let configClient = await this.db.readData('configClient')
         let resolution = configClient?.game_config?.screen_size || { width: 1920, height: 1080 };
 
@@ -225,20 +235,79 @@ class Settings {
 
         resolutionReset.addEventListener("click", async () => {
             let configClient = await this.db.readData('configClient')
-            configClient.game_config.screen_size = { width: '854', height: '480' };
-            width.value = '854';
-            height.value = '480';
+            configClient.game_config.screen_size = { width: '1080', height: '720' };
+            width.value = '1080';
+            height.value = '720';
             await this.db.updateData('configClient', configClient);
         })
     }
 
     async launcher() {
+        console.log('loading launcher async function...');
         let configClient = await this.db.readData('configClient');
 
         let maxDownloadFiles = configClient?.launcher_config?.download_multi || 5;
         let maxDownloadFilesInput = document.querySelector(".max-files");
         let maxDownloadFilesReset = document.querySelector(".max-files-reset");
+        let restorbtn = document.querySelector(".restor");
+        let uninstbtn = document.querySelector(".uninst");
         maxDownloadFilesInput.value = maxDownloadFiles;
+
+        restorbtn.addEventListener("click", async () => {
+            console.log("Lancement de la restoration de l'instance...");
+            try {
+                const appDataPath = await appdata();
+                const isMac = process.platform === 'darwin';
+                const dataDirectory = `${appDataPath}/${isMac ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`;
+                const instancesFolder = `${dataDirectory}/instances/`;
+                console.log(`Restoring path: ${instancesFolder}`);
+                if (fs.existsSync(instancesFolder)) {
+                    fs.readdirSync(instancesFolder).forEach(file => {
+                        const filePath = path.join(instancesFolder, file);
+        
+                        if (fs.lstatSync(filePath).isDirectory()) {
+                            viderDossier(filePath);
+                            console.log(`Réstoration effectuer de l'instance : ${instancesFolder}`);
+                            console.log(`Restoration de l'instance effectué avec succes (c'est qui succes?)`);
+                            Salert('Silverdium Launcher', `<h3>Restoration de l'instance<br>effectué avec succes<br>(c'est qui succes?)</h3>`, 'success', true, false);
+                        } else {
+                            fs.unlinkSync(filePath);
+                        }
+                    });
+                } else {
+                    console.warn(`Le dossier ${instancesFolder} n'existe pas.`);
+                }
+            } catch (error) {
+                Salert('Silverdium Launcher', `<h3>Une erreur est survenue :</h3><br>${error}<br>${error.stacl}`, 'error', true, false);
+                console.error("Une erreur s'est produite pendant la restauration :", error);
+                console.error(error.stack);
+            }
+        });
+        
+        // Fonction non terminer
+// uninstbtn.addEventListener("click", async () => {
+//     console.warn('!! [UNINST]: Chargement de la procédure de désinstallation... !!');
+//     console.warn('!! [UNINST]: Demande de confirmation... !!');
+
+//     // Demander confirmation à l'utilisateur
+//     const uninstConfirm = confirm('Êtes-vous sûr de désinstaller \nce magnifique launcher de Silverdium ?');
+//     if (uninstConfirm) {
+//         console.warn('!! [UNINST]: Demande de confirmation ACCEPTEE !!');
+//         console.warn('!! [UNINST]: Lancement de la procédure de désinstallation... !!');
+//         alert('[UNINS]: \nLancement de la procédure de désinstallation...');
+
+//         const config = {
+//             dataDirectory: (await ipcRenderer.invoke('appData').then(path => path))
+//         };
+
+//         await createFile(config);
+//     } else {
+//         console.warn('!! [UNINST]: Demande de confirmation DECLINEE !!');
+//         console.warn('!! [UNINST]: Arrêt de la procédure de désinstallation... !!');
+//         alert('[UNINS]: \nProcédure de désinstallation arrêtée.');
+//     }
+// });
+
 
         maxDownloadFilesInput.addEventListener("change", async () => {
             let configClient = await this.db.readData('configClient')

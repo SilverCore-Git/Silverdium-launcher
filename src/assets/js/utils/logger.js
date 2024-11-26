@@ -1,3 +1,4 @@
+// logger.js
 /**
  * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
@@ -11,7 +12,7 @@ let console_error = console.error;
 
 class logger {
     constructor(name, color) {
-        this.Logger(name, color)
+        this.Logger(name, color);
     }
 
     async Logger(name, color) {
