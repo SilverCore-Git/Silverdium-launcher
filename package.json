@@ -3,7 +3,7 @@
     "preductname": "Silverdium Launcher",
     "gamename": "Silverdium | V1 | 1.16.5",
     "version": "1.0.4",
-    "description": "Launcher Mincraft pour le serveur Silverdium",
+    "description": "Le meilleur launcher pour le meilleur serveur minecraft Silverdium",
     "main": "src/app.js",
     "author": {
         "name": "©Silverdium",
