@@ -6,7 +6,7 @@ const nodeFetch = require('node-fetch')
 const png2icons = require('png2icons');
 const Jimp = require('jimp');
 
-const { preductname, copyright, releasetype } = require('./package.json');
+const { preductname, copyright } = require('./package.json');
 
 class Index {
     async init() {
@@ -74,7 +74,7 @@ class Index {
                 asar: true,
                 publish: [{
                     provider: "github",
-                    releaseType: releasetype,
+                    releaseType: 'release',
                 }],
                 win: {
                     icon: "./app/assets/images/icon.ico",
@@ -84,11 +84,10 @@ class Index {
                     }]
                 },
                 nsis: {
-                    oneClick: false,
-                    allowToChangeInstallationDirectory: true,
+                    oneClick: true,
+                    allowToChangeInstallationDirectory: false,
                     createDesktopShortcut: true,
-                    runAfterFinish: true,
-                    shortcutName: "Silverdium"
+                    runAfterFinish: true
                 },
                 mac: {
                     icon: "./app/assets/images/icon.icns",
