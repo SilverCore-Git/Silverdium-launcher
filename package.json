@@ -20,7 +20,7 @@
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
-        "build": "node build.js --obf=true --build=platform",
+        "build": "node build.js --obf=true --build=platform --win --mac --linux",
         "icon": "node build.js --icon=https://raw.githubusercontent.com/Philippeletug/Silverdium-Launcher/refs/heads/master/src/assets/images/icon.png"
     },
     "license": "CCANC",
