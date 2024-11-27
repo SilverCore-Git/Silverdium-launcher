@@ -33,7 +33,6 @@
         "cross-env": "^7.0.3",
         "cross-env-shell": "^7.0.3",
         "electron": "^33.2.0",
-        "electron-builder": "^25.1.8",
         "electron-updater": "^6.3.9",
         "fs": "^0.0.1-security",
         "javascript-obfuscator": "^4.1.1",
