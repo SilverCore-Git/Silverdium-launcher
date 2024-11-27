@@ -69,7 +69,7 @@ class Index {
                 artifactName: "${productName}-${os}-${arch}.${ext}",
                 extraMetadata: { main: 'app/app.js' },
                 files: ["app/**/*", "package.json", "LICENSE.md"],
-                directories: { "output": "dist" },
+                directories: { "output": "build" },
                 compression: 'maximum',
                 asar: true,
                 publish: [{

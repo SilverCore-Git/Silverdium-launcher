@@ -1,0 +1,5 @@
+owner: Philippeletug
+repo: Silverdium-Launcher
+provider: github
+releaseType: release
+updaterCacheDirName: silverdium-launcher-updater
