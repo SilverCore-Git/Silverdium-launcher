@@ -32,7 +32,6 @@
         "7zip-bin": "^5.2.0",
         "cross-env": "^7.0.3",
         "cross-env-shell": "^7.0.3",
-        "electron": "^33.2.0",
         "electron-updater": "^6.3.9",
         "fs": "^0.0.1-security",
         "javascript-obfuscator": "^4.1.1",
