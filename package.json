@@ -2,7 +2,7 @@
     "name": "silverdium-launcher",
     "preductname": "Silverdium Launcher",
     "gamename": "Silverdium | V1 | 1.16.5",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Le meilleur launcher pour le meilleur serveur minecraft Silverdium",
     "main": "src/app.js",
     "author": {
@@ -42,7 +42,6 @@
         "os": "^0.1.2",
         "path": "^0.12.7",
         "png2icons": "^2.0.1",
-        "silver-mc-java-core": "^3.12.2",
         "sweetalert2": "^11.14.5",
         "xml-js": "^1.6.11"
     },
@@ -51,8 +50,8 @@
         "cross-env": "^7.0.3",
         "cross-env-shell": "^7.0.3",
         "electron": "^33.2.0",
-        "electron-updater": "^6.3.9",
         "electron-builder": "^25.1.8",
+        "electron-updater": "^6.3.9",
         "fs": "^0.0.1-security",
         "javascript-obfuscator": "^4.1.1",
         "jimp": "^1.6.0",
@@ -62,7 +61,7 @@
         "os": "^0.1.2",
         "path": "^0.12.7",
         "png2icons": "^2.0.1",
-        "silver-mc-java-core": "^3.12.2",
+        "silver-mc-java-core": "^3.12.3",
         "sweetalert2": "^11.14.5",
         "xml-js": "^1.6.11"
     },
