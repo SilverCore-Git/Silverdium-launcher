@@ -18,7 +18,7 @@ class Settings {
         this.db = new database();
         this.navBTN()
         this.accounts()
-        this.ram()
+        this.ram() 
         this.javaPath()
         this.resolution()
         this.launcher()
@@ -250,8 +250,24 @@ class Settings {
         let maxDownloadFilesInput = document.querySelector(".max-files");
         let maxDownloadFilesReset = document.querySelector(".max-files-reset");
         let restorbtn = document.querySelector(".restor");
+        let codeconfbtn = document.querySelector(".codeconf");
+        let opencmdbtn = document.querySelector(".opencmd");
         let uninstbtn = document.querySelector(".uninst");
         maxDownloadFilesInput.value = maxDownloadFiles;
+
+        opencmdbtn.addEventListener("click", async () => {
+            const event = new KeyboardEvent('keydown', {
+                key: 'F12',
+                keyCode: 123, // Code de la touche F12
+                which: 123
+            });
+            document.dispatchEvent(event);            
+        })
+
+        codeconfbtn.addEventListener("click", async () => {
+            console.log('Affichage du code de confirmation');
+            Salert('Silverdium Launcher', `<h3>Code de confirmation :<br>${this.config.codeconf}</h3>`, 'info', true, false);
+        });
 
         restorbtn.addEventListener("click", async () => {
             console.log("Lancement de la restoration de l'instance...");

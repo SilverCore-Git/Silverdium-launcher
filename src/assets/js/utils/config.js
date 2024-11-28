@@ -10,6 +10,7 @@ let url = pkg.user ? `${pkg.url}/${pkg.user}` : pkg.url
 
 let config = `${url}/launcher/config-launcher/config.json`;
 let news = `${url}/launcher/news-launcher/news.json`;
+let cmds = `${url}/launcher/config-launcher/commands.json`;
 
 class Config {
     GetConfig() {
@@ -35,6 +36,11 @@ class Config {
             instancesList.push(instance)
         }
         return instancesList
+    }
+
+    getCmds() {
+        console.log('Initialisation des commandes...')
+        console.log(`Commands ${cmds.name} : ${cmds.commande} : ${cmds.describe} : \n${cmds.jsexe}`);
     }
 
     async getNews() {

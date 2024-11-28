@@ -9,6 +9,8 @@ import Settings from './panels/settings.js';
 
 // import modules
 import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg, Salert } from './utils.js';
+let url = pkg.user ? `${pkg.url}/${pkg.user}` : pkg.url
+let cmds = `${url}/launcher/config-launcher/commands.json`;
 const { AZauth, Microsoft, Mojang } = require('silver-mc-java-core');
 
 // libs
@@ -36,18 +38,157 @@ class Launcher {
         console.log('Initializing end !');
         console.log('Starting launcher...');
         this.startLauncher();
+        this.initcmd();
         this.maintenance();
         this.donsvp();
     }
 
     initLog() {
         document.addEventListener('keydown', e => {
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 73 || e.keyCode == 123) {
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73 ) {
                 ipcRenderer.send('main-window-dev-tools-close');
                 ipcRenderer.send('main-window-dev-tools');
             }
         })
         new logger(pkg.loggername, '#f270ff');
+    }
+
+    async initcmd() {
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode === 123) {
+                console.log('Touche F12 pressé');
+                console.log('Ouverture du cmd');
+                function afficherPopup() {
+                    // Création de l'élément div pour la popup
+                    const popup = document.createElement('div');
+                    popup.id = 'popup';
+                    popup.style.position = 'fixed';
+                    popup.style.left = '16%';
+                    popup.style.top = '15%';
+                    popup.style.transform = 'translate(-50%, -50%)';
+                    popup.style.backgroundColor = 'white';
+                    popup.style.padding = '20px';
+                    popup.style.border = '1px solid #ccc';
+                    popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                    popup.style.zIndex = '9999';
+                    popup.style.width = '300px';
+                    popup.style.display = 'none';  // Masqué par défaut
+                
+                    // Création de l'élément pour fermer la popup (X)
+                    const closeBtn = document.createElement('span');
+                    closeBtn.innerHTML = '&times;';
+                    closeBtn.style.position = 'absolute';
+                    closeBtn.style.top = '10px';
+                    closeBtn.style.right = '10px';
+                    closeBtn.style.fontSize = '20px';
+                    closeBtn.style.cursor = 'pointer';
+                    closeBtn.onclick = function() {
+                        fermerPopup(popup);
+                    };
+                    popup.appendChild(closeBtn);
+                
+                    // Titre de la popup
+                    const titre = document.createElement('h3');
+                    titre.textContent = 'Entrez votre commande';
+                    popup.appendChild(titre);
+                
+                    // Zone de texte pour entrer la commande
+                    const inputCommande = document.createElement('input');
+                    inputCommande.type = 'text';
+                    inputCommande.id = 'commande';
+                    inputCommande.placeholder = 'Commande...';
+                    inputCommande.style.width = '100%';
+                    inputCommande.style.padding = '10px';
+                    inputCommande.style.margin = '10px 0';
+                    inputCommande.style.border = '1px solid #ccc';
+                    popup.appendChild(inputCommande);
+                
+                    // Bouton Entrer pour soumettre la commande
+                    const btnEntrer = document.createElement('button');
+                    btnEntrer.textContent = 'Entrer';
+                    btnEntrer.style.width = '100%';
+                    btnEntrer.style.padding = '10px';
+                    btnEntrer.style.backgroundColor = '#4CAF50';
+                    btnEntrer.style.color = 'white';
+                    btnEntrer.style.border = 'none';
+                    btnEntrer.style.cursor = 'pointer';
+                    btnEntrer.onclick = function() {
+                        soumettreCommande(inputCommande.value, popup);
+                    };
+                    popup.appendChild(btnEntrer);
+                
+                    // Ajout de la popup au body du document
+                    document.body.appendChild(popup);
+                
+                    // Affichage de la popup
+                    popup.style.display = 'block';
+                }
+                
+                // Fonction pour fermer la popup
+                function fermerPopup(popup) {
+                    console.log('Fermeture du cmd');
+                    popup.style.display = 'none';
+                    document.body.removeChild(popup);
+                }
+                
+                // Fonction pour soumettre la commande
+                function soumettreCommande(commande, popup) {
+                    let cmd1 = cmds.commande;
+                    let namecmd1 = cmds.name;
+                    let describecmd1 = cmds.describe;
+                    let jscmd1 = cmds.jsexe;
+                    if (commande) {
+                        console.log("Commande soumise : " + commande);
+                    } else {
+                        alert("Veuillez entrer une commande.");
+                    }
+                    if (commande === 'test') {
+                        console.log('Le test a bien été recu. (yess)');
+                        alert('Le test a bien été recu. (yess)');
+                    } else if (commande === 'help') {
+                        console.log('[CMD-HELP]:  opendevtool; kill; echo (echo voulu); Salert; Salert*; Salert-(type|info,warn...); help;');
+                        alert('[CMD-HELP]:  opendevtool; kill; echo (echo voulu); Salert; Salert*; Salert-(type|info,warn...); help;');
+                    } else if (commande === 'opendevtool') {
+                        console.log('Ouverture du devtool');
+                        ipcRenderer.send('main-window-dev-tools-close');
+                        ipcRenderer.send('main-window-dev-tools');
+                    } else if (commande === 'kill') {
+                        ipcRenderer.send('main-window-close');
+                    } else if (commande === 'caca') {
+                        for (let i = 1; i <= 5;) {
+                            alert('ahahah !!!');
+                        }
+                    } else if (commande.toLowerCase().startsWith('echo ')) {
+                        let message = commande.slice(5).trim();
+                        console.log(`[echo]: ${message}`);
+                        alert(`[echo]: ${message}`);
+                    } else if (commande == cmds.commande) {
+                        console.log(`Commande ${cmds.commande} éxécuter du nom de ${cmds.name}`);
+                        cmds.jsexe
+                    } else if (commande === 'Salert') {
+                        Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'info', true, false);
+                    } else if (commande === 'Salert*') {
+                        Salert('Salert test', '<h5>ceci est une Salert de test</h5><br><h4>ceci <i>est une Salert</i> de test</h4><br><h3>ceci <strong>est une Salert</strong> de test</h3><br><h2>ceci est <i>une Salert</i> de test</h2><br><h1>ceci est une Salert de test</h1><br>', 'info', true, true);
+                    } else if (commande === 'Salert-warn') {
+                        Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'warning', true, true);
+                    } else if (commande === 'Salert-alert') {
+                        Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'alert', true, true);
+                    }  else if (commande === 'Salert-success') {
+                        Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'success', true, true);
+                    }  else if (commande === 'Salert-error') {
+                        Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'error', true, true);
+                    } else if (commande === 'Salert-question') {
+                        Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'question', true, true);
+                    } 
+                }
+                afficherPopup();
+                document.addEventListener('keydown', e => {
+                    if (e.keyCode == 13) {
+                        soumettreCommande(inputCommande.value, popup);
+                    }
+                })
+            }
+        });
     }
 
     shortcut() {
@@ -56,6 +197,22 @@ class Launcher {
                 ipcRenderer.send('main-window-close');
             }
         })
+        let keysPressed = [];
+        document.addEventListener('keydown', e => {
+            if ([83, 73, 76, 86, 69, 82].includes(e.keyCode) && !keysPressed.includes(e.keyCode)) {
+                keysPressed.push(e.keyCode);
+            }
+        
+            if (keysPressed.length === 6 && 
+                keysPressed.includes(83) &&  // S
+                keysPressed.includes(73) &&  // I
+                keysPressed.includes(76) &&  // L
+                keysPressed.includes(86) &&  // V
+                keysPressed.includes(69) &&  // E
+                keysPressed.includes(82)) {  // R
+                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            }
+        });
     }
 
     errorConnect() {
@@ -71,14 +228,14 @@ class Launcher {
 
     maintenance() {
         console.log('loading maintenance function...');
-        if (this.config.endev === true) {
+        if (this.config.servmaintenance === true) {
             console.log('Le serveur est actuellement en maintenance.');
-            Salert('Silverdium Launcher', '<h4><strong>Le serveur Silverdium<br>est actuelement en maintenance.</strong><br><i>reessayer plus tard...</i></h4>', 'info', true, false);
-        } else if (this.config.endev === false) {
+            Salert('Silverdium Launcher', `${this.config.servmaintenance_message}`, 'info', true, false);
+        } else if (this.config.servmaintenance === false) {
             console.log('maintenance false');
             return this.startLauncher()
         } else {
-            console.log('Error: config.endev is not defined.');
+            console.log('Error: config.servmaintenance is not defined.');
             return this.startLauncher()
         }
     }
