@@ -8,6 +8,7 @@ const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const confetti = require('canvas-confetti')
 
 class Settings {
     static id = "settings";
@@ -16,17 +17,83 @@ class Settings {
         console.log('loading settings panel...');
         this.config = config;
         this.db = new database();
+        // this.fetemod = true;
         this.navBTN()
         this.accounts()
         this.ram() 
         this.javaPath()
         this.resolution()
         this.launcher()
+        // this.fete()
     }
 
+    // fete() {
+    //     let modfete = document.querySelector(".fete");
+    //     let btnfete = document.getElementById("fete-btn");
+    //     let btnfete2 = document.getElementById("account");
+    //     let btnfete3 = document.getElementById("java");
+    //     let btnfete4 = document.getElementById("resolution");
+    //     let btnfete5 = document.getElementById("launcher");
+    //     modfete.addEventListener('change', () => {
+    //         let fetemod = modfete.checked;
+    //         confetti({
+    //             particleCount: 100,
+    //             spread: 80,
+    //             origin: { x: 0.1, y: 0.7 }
+    //         }); 
+    //         console.log(`Mode fete : ${fetemod}`);
+    //     })
+    //     btnfete.addEventListener("click", () => {
+    //         if (this.fetemod) {
+    //             confetti({
+    //                 particleCount: 100,
+    //                 spread: 80,
+    //                 origin: { x: 0.5, y: 0.5 }
+    //             }); 
+    //         }
+    //     })
+    //     btnfete2.addEventListener("click", () => {
+    //         if (this.fetemod) {
+    //             confetti({
+    //                 particleCount: 100,
+    //                 spread: 80,
+    //                 origin: { x: 0.5, y: 0.5 }
+    //             }); 
+    //         }
+    //     })
+    //     btnfete3.addEventListener("click", () => {
+    //         if (this.fetemod) {
+    //             confetti({
+    //                 particleCount: 100,
+    //                 spread: 80,
+    //                 origin: { x: 0.5, y: 0.5 }
+    //             }); 
+    //         }
+    //     })
+    //     btnfete4.addEventListener("click", () => {
+    //         if (this.fetemod) {
+    //             confetti({
+    //                 particleCount: 100,
+    //                 spread: 80,
+    //                 origin: { x: 0.5, y: 0.5 }
+    //             }); 
+    //         }
+    //     })
+    //     btnfete5.addEventListener("click", () => {
+    //         if (this.fetemod) {
+    //             confetti({
+    //                 particleCount: 100,
+    //                 spread: 80,
+    //                 origin: { x: 0.5, y: 0.5 }
+    //             }); 
+    //         }
+    //     })
+    // }
+ 
     navBTN() {
         console.log('loading navBTN function...');
         document.querySelector('.nav-box').addEventListener('click', e => {
+
             if (e.target.classList.contains('nav-settings-btn')) {
                 let id = e.target.id
 
@@ -54,6 +121,11 @@ class Settings {
     accounts() {
         console.log('loading accounts function...');
         document.querySelector('.accounts-list').addEventListener('click', async e => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             let popupAccount = new popup()
             try {
                 let id = e.target.id
@@ -173,41 +245,57 @@ class Settings {
 
     async javaPath() {
         console.log('loading javaPath async function...');
-        let javaPathText = document.querySelector(".java-path-txt")
-        javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
-
-        let configClient = await this.db.readData('configClient')
-        let javaPath = configClient?.java_config?.java_path || 'Utiliser la version de java livre avec le launcher';
-        let javaPathInputTxt = document.querySelector(".java-path-input-text");
-        let javaPathInputFile = document.querySelector(".java-path-input-file");
-        javaPathInputTxt.value = javaPath;
-
-        document.querySelector(".java-path-set").addEventListener("click", async () => {
-            javaPathInputFile.value = '';
-            javaPathInputFile.click();
-            await new Promise((resolve) => {
-                let interval;
-                interval = setInterval(() => {
-                    if (javaPathInputFile.value != '') resolve(clearInterval(interval));
-                }, 100);
+        try {
+            let javaPathText = document.querySelector(".java-path-txt")
+            javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
+    
+            let configClient = await this.db.readData('configClient');
+            let javaPath = configClient?.java_config?.java_path || 'Utiliser la version de java livré avec le launcher';
+            let javaPathInputTxt = document.querySelector(".java-path-input-text");
+            let javaPathInputFile = document.querySelector(".java-path-input-file");
+            javaPathInputTxt.value = javaPath;
+    
+            document.querySelector(".java-path-set").addEventListener("click", async () => {
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { x: 0.5, y: 0.8 }
+                }); 
+                javaPathInputFile.value = '';
+                javaPathInputFile.click();
+    
+                javaPathInputFile.addEventListener("change", async () => {
+                    let file = javaPathInputFile.files[0]?.path;
+                    if (!file) return;
+    
+                    if (file.replace(".exe", "").endsWith("java") || file.replace(".exe", "").endsWith("javaw")) {
+                        configClient = await this.db.readData('configClient');
+                        javaPathInputTxt.value = file;
+                        configClient.java_config.java_path = file;
+                        await this.db.updateData('configClient', configClient);
+                    } else {
+                        Salert('Silverdium Launcher', "<h3>Le nom du fichier doit être java(.exe) ou javaw(.exe)</h3>", 'info', true, false);
+                    }
+                }, { once: true });
             });
-
-            if (javaPathInputFile.value.replace(".exe", '').endsWith("java") || javaPathInputFile.value.replace(".exe", '').endsWith("javaw")) {
-                let configClient = await this.db.readData('configClient')
-                let file = javaPathInputFile.files[0].path;
-                javaPathInputTxt.value = file;
-                configClient.java_config.java_path = file
+    
+            document.querySelector(".java-path-reset").addEventListener("click", async () => {
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { x: 0.5, y: 0.8 }
+                }); 
+                configClient = await this.db.readData('configClient');
+                javaPathInputTxt.value = 'Utiliser la version de java livré avec le launcher';
+                configClient.java_config.java_path = null;
                 await this.db.updateData('configClient', configClient);
-            } else Salert('Silverdium Launcher', "<h3>Le nom du fichier doit être java(.exe) ou javaw(.exe)</h3>", 'info', true, false);
-        });
-
-        document.querySelector(".java-path-reset").addEventListener("click", async () => {
-            let configClient = await this.db.readData('configClient')
-            javaPathInputTxt.value = 'Utiliser la version de java livre avec le launcher';
-            configClient.java_config.java_path = null
-            await this.db.updateData('configClient', configClient);
-        });
+            });
+        } catch (err) {
+            console.error("Erreur lors de l'éxécution de javaPath.", err);
+            console.log(`[VAR]: javaPathText.textContent : "${javaPathText.textContent}"`);
+        }
     }
+    
 
     async resolution() {
         console.log('loading resolution async function...');
@@ -222,18 +310,33 @@ class Settings {
         height.value = resolution.height;
 
         width.addEventListener("change", async () => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             let configClient = await this.db.readData('configClient')
             configClient.game_config.screen_size.width = width.value;
             await this.db.updateData('configClient', configClient);
         })
 
         height.addEventListener("change", async () => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             let configClient = await this.db.readData('configClient')
             configClient.game_config.screen_size.height = height.value;
             await this.db.updateData('configClient', configClient);
         })
 
         resolutionReset.addEventListener("click", async () => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             let configClient = await this.db.readData('configClient')
             configClient.game_config.screen_size = { width: '1080', height: '720' };
             width.value = '1080';
@@ -258,18 +361,28 @@ class Settings {
         opencmdbtn.addEventListener("click", async () => {
             const event = new KeyboardEvent('keydown', {
                 key: 'F12',
-                keyCode: 123, // Code de la touche F12
+                keyCode: 123, // touche F12
                 which: 123
             });
             document.dispatchEvent(event);            
         })
 
         codeconfbtn.addEventListener("click", async () => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             console.log('Affichage du code de confirmation');
             Salert('Silverdium Launcher', `<h3>Code de confirmation :<br>${this.config.codeconf}</h3>`, 'info', true, false);
         });
 
         restorbtn.addEventListener("click", async () => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             console.log("Lancement de la restoration de l'instance...");
             try {
                 const appDataPath = await appdata();

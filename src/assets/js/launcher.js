@@ -8,7 +8,7 @@ import Home from './panels/home.js';
 import Settings from './panels/settings.js';
 
 // import modules
-import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg, Salert } from './utils.js';
+import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg, appdata, Salert } from './utils.js';
 let url = pkg.user ? `${pkg.url}/${pkg.user}` : pkg.url
 let cmds = `${url}/launcher/config-launcher/commands.json`;
 const { AZauth, Microsoft, Mojang } = require('silver-mc-java-core');
@@ -17,6 +17,8 @@ const { AZauth, Microsoft, Mojang } = require('silver-mc-java-core');
 const { ipcRenderer } = require('electron');
 const Swal = require('sweetalert2');
 const fs = require('fs');
+
+let noroll = false;
 
 class Launcher {
     async init() {
@@ -41,6 +43,7 @@ class Launcher {
         this.initcmd();
         this.maintenance();
         this.donsvp();
+        this.initvar();
     }
 
     initLog() {
@@ -53,11 +56,30 @@ class Launcher {
         new logger(pkg.loggername, '#f270ff');
     }
 
+    async initvar() {
+        // require
+        const appDataPath = await appdata();
+        const isMac = process.platform === 'darwin';
+        // var list
+        console.log('------------------INITIALIZING VAR------------------');
+        console.log('-----------------GENERAL-----------------')
+        console.log(`[VAR]: appdata path : ${await appdata()}`);
+        console.log(`[VAR]: silver path : ${process.platform === 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`);
+        console.log(`[VAR]: .silver? : ${this.config.dataDirectory}`);
+        console.log(`[VAR]: .silver?path : "${await appdata()}/${process.platform === 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime"`);
+        console.log(`[VAR]: one dataDir : ${appDataPath}/${isMac ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`);
+        console.log(`[VAR]: 45 : ${45}`);
+        console.log(`[VAR]: 45 : ${45}`);
+        console.log(`[VAR]: 45 : ${45}`);
+        console.log(`[VAR]: 45 : ${45}`);
+    }
+
     async initcmd() {
         document.addEventListener('keydown', function(event) {
             if (event.keyCode === 123) {
                 console.log('Touche F12 pressé');
                 console.log('Ouverture du cmd');
+                let noroll = true;
                 function afficherPopup() {
                     // Création de l'élément div pour la popup
                     const popup = document.createElement('div');
@@ -179,6 +201,8 @@ class Launcher {
                         Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'error', true, true);
                     } else if (commande === 'Salert-question') {
                         Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'question', true, true);
+                    } else if (commande === 'varlist') {
+                        initvar();
                     } 
                 }
                 afficherPopup();
@@ -199,18 +223,31 @@ class Launcher {
         })
         let keysPressed = [];
         document.addEventListener('keydown', e => {
-            if ([83, 73, 76, 86, 69, 82].includes(e.keyCode) && !keysPressed.includes(e.keyCode)) {
+            confetti({
+                particleCount: 160,
+                spread: 180,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
+            if ([83, 73, 76, 86, 69, 82, 83, 73, 76, 86, 69, 82].includes(e.keyCode) && !keysPressed.includes(e.keyCode)) {
                 keysPressed.push(e.keyCode);
             }
         
-            if (keysPressed.length === 6 && 
+            if (keysPressed.length === 12 && 
+                keysPressed.includes(83) &&  // S
+                keysPressed.includes(73) &&  // I
+                keysPressed.includes(76) &&  // L
+                keysPressed.includes(86) &&  // V
+                keysPressed.includes(69) &&  // E
+                keysPressed.includes(82) &&  // R
                 keysPressed.includes(83) &&  // S
                 keysPressed.includes(73) &&  // I
                 keysPressed.includes(76) &&  // L
                 keysPressed.includes(86) &&  // V
                 keysPressed.includes(69) &&  // E
                 keysPressed.includes(82)) {  // R
-                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+                if (noroll === false) {
+                    window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+                }
             }
         });
     }

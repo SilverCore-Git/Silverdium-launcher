@@ -2,10 +2,17 @@
     <div class="nav-settings">
         <p>Paramètres</p>
         <div class="nav-box">
-            <div id="account" class="nav-settings-btn active-settings-BTN">COMPTES</div>
-            <div id="java" class="nav-settings-btn">RAM</div>
-            <div id="resolution" class="nav-settings-btn">RESOLUTION</div>
-            <div id="launcher" class="nav-settings-btn">LAUNCHER</div>
+                <div id="account" class="nav-settings-btn active-settings-BTN">COMPTES</div>
+                <div id="java" class="nav-settings-btn">RAM</div>
+                <div id="resolution" class="nav-settings-btn">RESOLUTION</div>
+                <div id="launcher" class="nav-settings-btn">LAUNCHER</div>
+            <!-- <div class="nav-settings-btn-fete">
+                <label class="switch">
+                    <div class="txt-fete">🎊</div>
+                    <input class="fete" type="checkbox">
+                    <span class="slider round"></span>
+                </label> 
+            </div> -->
             <div id="save" class="nav-settings-btn">ACCUEIL</div>
         </div>
     </div>
@@ -59,7 +66,7 @@
         </div>
 
         <!-- Fonction non utile pour launcher de silverdium -->
-        <!-- <div class="titre-tab">Emplacement de Java</div>
+        <div class="titre-tab">Emplacement de Java</div>
         <div class="settings-elements-box">
             <div class="setting-text">
                 Le launcher utilise une version embarquée de Java.<br>
@@ -72,10 +79,10 @@
                 <input type="file" class="java-path-input-file" accept="application/octet-stream" />
                 <div class="java-path-box">
                     <div class="java-path-set java-path-btn">Changer</div>
-                    <div class="java-path-reset java-path-btn">Par defaut</div>
+                    <div class="java-path-reset restore-btn">Par defaut</div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <div id="resolution-tab" class="container-settings">
@@ -93,7 +100,7 @@
                     <div class="size-cross"></div>
                     <input type="number" class="height-size input-resolution">
                 </div>
-                <div class="size-reset size-btn">Par defaut</div>
+                <div class="size-reset restore-btn">Par defaut</div>
             </div>
         </div>
     </div>
@@ -113,7 +120,7 @@
             <div class="settings-elements content-center">
                 <input type="number" class="max-files input-max-files">
                 <p>Fichiers</p>
-                <div class="max-files-reset max-files-btn">Par defaut</div>
+                <div class="max-files-reset restore-btn">Par defaut</div>
             </div>
         </div>
 
@@ -145,16 +152,18 @@
             </div>
         </div>
 
-        <div class="titre-tab">Réinitialisation</div>
+        <div class="titre-tab">Divers</div>
         <div class="settings-elements-box">
             <div class="setting-text">
-                Pour réinitialiser les donner de Silverdium.
+                Plusieurs paramettre divers, un code de confirmation qui peut être demandé par un staff;
+                <br>un acces au cmd qui marche aussi avec F12;
+                <br>activation ou non du mode fete.
             </div>
 
             <div class="settings-elements content-evenly close-box">
                 <div class="restor restore-btn">Réinitialiser l'instance</div>
-                <div class="codeconf restore-btn">Demander un code de confirmation</div> 
-                <div class="opencmd restore-btn">cmd</div> 
+                <div class="codeconf restore-btn">code de confirmation</div> 
+                <div class="opencmd restore-btn">cmd</div>
                 <!-- Fonction non terminer -->
                 <!-- <div class="uninst uninst-btn">Désinstaller Silverdium-Launcher</div> -->
             </div> 

@@ -51,7 +51,11 @@ async function changePanel(id) {
 }
 
 async function appdata() {
-    return await ipcRenderer.invoke('appData').then(path => path)
+    try {
+        return await ipcRenderer.invoke('appData').then(path => path);
+    } catch (err) {
+        console.error("Erreur lors de la recherche de 'appdata'", err);
+    }
 }
 
 export function register() {

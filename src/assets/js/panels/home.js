@@ -7,6 +7,7 @@ import { config, database, logger, changePanel, appdata, setStatus, pkg, popup }
 
 const { Launch } = require('silver-mc-java-core')
 const { shell, ipcRenderer } = require('electron')
+const confetti = require('canvas-confetti')
 
 class Home {
     static id = "home";
@@ -18,7 +19,14 @@ class Home {
         this.news()
         this.socialLick()
         this.instancesSelect()
-        document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
+        document.querySelector('.settings-btn').addEventListener('click', e => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
+            changePanel('settings')
+        })
     }
     
     async news() {
@@ -101,11 +109,26 @@ class Home {
         let webbtn = document.querySelector('.web-button');
 
         webbtn.addEventListener('click', e => {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             shell.openExternal(e.target.dataset.url)
         })
 
         socials.forEach(social => {
+            confetti({
+                particleCount: 160,
+                spread: 160,
+                origin: { x: 0.5, y: 0.8 }
+            }); 
             social.addEventListener('click', e => {
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { x: 0.5, y: 0.8 }
+                }); 
                 shell.openExternal(e.target.dataset.url)
             })
         });
@@ -177,6 +200,12 @@ class Home {
             let configClient = await this.db.readData('configClient')
             let instanceSelect = configClient.instance_selct
             let auth = await this.db.readData('accounts', configClient.account_selected)
+
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { x: 0.5, y: 0.9 }
+            }); 
 
             if (e.target.classList.contains('instance-select')) {
                 instancesListPopup.innerHTML = ''

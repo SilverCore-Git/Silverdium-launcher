@@ -28,6 +28,7 @@
 
 .server-status-icon {
     height: 3.3rem;
+    border-radius: 10px;
 }
 
 .server-status-name {
@@ -202,11 +203,13 @@
     width: 55%;
     filter: var(--svg-color);
 }
+.social-block {
+    transition: all 0.4s;
+}
 
 .social-block:hover {
-    opacity: 0.8;
-    height: 95px;
-    width: 95px;
+    filter: contrast(130%) saturate(130%) brightness(130%);
+    opacity: 0.9;
 }
 
 
@@ -354,11 +357,11 @@
     font-size: 3rem;
     color: var(--element-color);
     margin: 0 1.5rem;
-    transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .settings-btn:hover {
-    opacity: 0.8;
+    filter: brightness(110%) saturate(120%) contrast(120%);
     width: 4rem;
     height: 4rem;
 }
