@@ -4,6 +4,14 @@
 @import 'panels/home.css';
 @import 'panels/settings.css';
 
+html, body {
+    border-radius: 15px;
+}
+
+html {
+    border-radius: 15px;
+}
+
 body {
     margin: 0;
     padding: 0;

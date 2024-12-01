@@ -203,7 +203,20 @@ class Launcher {
                         Salert('Salert test', '<h3>ceci est une Salert de test</h3>', 'question', true, true);
                     } else if (commande === 'varlist') {
                         initvar();
-                    } 
+                    }// } else if (commande === 'refresh') {
+                    //         console.log('loading destroyPanels function...');
+                    //         let panelsElem = document.querySelector('.panels');
+                    //         for (let panel of panels) {
+                    //             console.log(`Destroying ${panel.name} Panel...`);
+                    //             let panelElem = panelsElem.querySelector(`.panel.${panel.id}`);
+                    //             if (panelElem) {
+                    //                 panelsElem.removeChild(panelElem); // Supprime le panneau du DOM
+                    //                 console.log(`${panel.name} Panel destroyed!`);
+                    //             } else {
+                    //                 console.log(`Panel ${panel.name} does not exist in DOM.`);
+                    //             }
+                    //     }
+                    //} 
                 }
                 afficherPopup();
                 document.addEventListener('keydown', e => {
@@ -223,11 +236,6 @@ class Launcher {
         })
         let keysPressed = [];
         document.addEventListener('keydown', e => {
-            confetti({
-                particleCount: 160,
-                spread: 180,
-                origin: { x: 0.5, y: 0.8 }
-            }); 
             if ([83, 73, 76, 86, 69, 82, 83, 73, 76, 86, 69, 82].includes(e.keyCode) && !keysPressed.includes(e.keyCode)) {
                 keysPressed.push(e.keyCode);
             }
@@ -368,7 +376,7 @@ class Launcher {
             panelsElem.appendChild(div);
             new panel().init(this.config);
         }
-    }
+    }    
 
     async startLauncher() {
         console.log('loading startLauncher function...');

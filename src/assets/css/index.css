@@ -6,13 +6,15 @@ body {
     background-color: var(--background);
     font-family: "Poppins";
     letter-spacing: 0px;
+    border-radius: 15px;
 }
 
 img {
     -webkit-user-drag: none;
     user-select: none;
+    border-radius: 15px;
 }
-
+ 
 .splash {
     position: absolute;
     top: 180px;
