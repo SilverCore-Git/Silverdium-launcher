@@ -2,7 +2,6 @@
  * @author Silverdium
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
-// revoir code js
 
 const { ipcRenderer, shell } = require('electron');
 const pkg = require('../package.json');
@@ -96,27 +95,47 @@ class Splash {
         }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
     }
 
-    async dowloadUpdate() {
+    async downloadUpdate() {
+        if (!pkg || !pkg.repository || !pkg.repository.url) {
+            throw new Error("Repository URL manquant dans le fichier pkg");
+        }
+    
         const repoURL = pkg.repository.url.replace("git+", "").replace(".git", "").replace("https://github.com/", "").split("/");
-        const githubAPI = await nodeFetch('https://api.github.com').then(res => res.json()).catch(err => err);
-
-        const githubAPIRepoURL = githubAPI.repository_url.replace("{owner}", repoURL[0]).replace("{repo}", repoURL[1]);
-        const githubAPIRepo = await nodeFetch(githubAPIRepoURL).then(res => res.json()).catch(err => err);
-
-        const releases_url = await nodeFetch(githubAPIRepo.releases_url.replace("{/id}", '')).then(res => res.json()).catch(err => err);
+        const githubAPIRepoURL = `https://api.github.com/repos/${repoURL[0]}/${repoURL[1]}`;
+    
+        const githubAPIRepo = await nodeFetch(githubAPIRepoURL)
+            .then(res => res.ok ? res.json() : Promise.reject(new Error(`Erreur API: ${res.statusText}`)))
+            .catch(err => { throw new Error(`Erreur de connexion à GitHub : ${err.message}`); });
+    
+        if (!githubAPIRepo || !githubAPIRepo.releases_url) {
+            throw new Error("URL des releases manquante dans les données du dépôt");
+        }
+    
+        const releases_url = await nodeFetch(githubAPIRepo.releases_url.replace("{/id}", ''))
+            .then(res => res.ok ? res.json() : Promise.reject(new Error(`Erreur API: ${res.statusText}`)))
+            .catch(err => { throw new Error(`Erreur de connexion aux releases GitHub : ${err.message}`); });
+    
+        if (!releases_url || releases_url.length === 0) {
+            throw new Error("Aucune release disponible pour ce dépôt.");
+        }
+    
         const latestRelease = releases_url[0].assets;
         let latest;
-
+    
         if (os.platform() == 'darwin') latest = this.getLatestReleaseForOS('mac', '.dmg', latestRelease);
-        else if (os == 'linux') latest = this.getLatestReleaseForOS('linux', '.appimage', latestRelease);
-
-
+        else if (os.platform() == 'linux') latest = this.getLatestReleaseForOS('linux', '.appimage', latestRelease);
+    
+        if (!latest || !latest.browser_download_url) {
+            throw new Error("Lien de téléchargement introuvable pour la dernière release.");
+        }
+    
         this.setStatus(`Mise à jour disponible ! (yess !)<br><div class="download-update">Télécharger</div>`);
         document.querySelector(".download-update").addEventListener("click", () => {
             shell.openExternal(latest.browser_download_url);
-            return this.shutdown("Téléchargement en cours... <br><h4>(10 d'tit mega sa use, sa use... 10 d'tit giga sa use, sa use...)</h4> ");
+            return this.shutdown("Téléchargement en cours... <br><h4>(10 p'tit mega sa use, sa use... 10 p'tit giga sa use, sa use...)</h4> ");
         });
     }
+    
 
 
     async maintenanceCheck() {
