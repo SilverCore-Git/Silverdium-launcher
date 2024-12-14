@@ -102,20 +102,13 @@ class Index {
                         arch: "universal"
                     }]
                 },
-                linuxrpm: {
+                linux: {
                     icon: "./app/assets/images/icon.png",
                     target: [{
                         target: "rpm",
                         arch: "x64"
                     }]
                 },
-                linuxdeb: {
-                    icon: "./app/assets/images/icon.png",
-                    target: [{
-                        target: "deb",
-                        arch: "x64"
-                    }]
-                }
             }
         }).then(() => {
             console.log('le build est terminé')
