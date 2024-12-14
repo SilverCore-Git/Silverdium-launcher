@@ -68,7 +68,7 @@ class Index {
                 copyright: copyright,
                 artifactName: "${productName}-${os}-${arch}.${ext}",
                 extraMetadata: { main: 'app/app.js' },
-                files: ["app/**/*", "package.json", "LICENSE.md"],
+                files: ["app/**/*", "package.json"],
                 directories: { "output": "build" },
                 compression: 'maximum',
                 asar: true,
@@ -102,10 +102,17 @@ class Index {
                         arch: "universal"
                     }]
                 },
-                linux: {
+                linuxrpm: {
                     icon: "./app/assets/images/icon.png",
                     target: [{
                         target: "rpm",
+                        arch: "x64"
+                    }]
+                },
+                linuxdeb: {
+                    icon: "./app/assets/images/icon.png",
+                    target: [{
+                        target: "deb",
                         arch: "x64"
                     }]
                 }
