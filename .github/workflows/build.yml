@@ -5,7 +5,7 @@ on:
 
 jobs:
   create-release:
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-14, linux-latest, windows-latest]
+        os: [macos-14, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
