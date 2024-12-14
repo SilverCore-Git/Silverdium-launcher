@@ -2,11 +2,11 @@
     "name": "silverdium-launcher",
     "preductname": "Silverdium Launcher",
     "gamename": "Silverdium | V1 | 1.16.5",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Le meilleur launcher pour le meilleur serveur minecraft Silverdium",
     "main": "src/app.js",
     "author": {
-        "name": "© Silverdium",
+        "name": "© SilverCore",
         "email": "silverdium@hotmail.com",
         "url": "https://silverdium.fr"
     },
