@@ -1,5 +1,5 @@
-# SilverCore
-## Silverdium Launcher
+# [Silverdium Launcher](https://github.com/Philippeletug/Silverdium-Launcher)
+## [Silverdium Launcher](https://github.com/Philippeletug/Silverdium-Launcher)
 
 - Il s'agit du launcher du Serveur minecraft modé [Silverdium](https://silverdium.fr) baser sur le [selvania Launcher](https://github.com/luuxis/selvania-Launcher).
 
